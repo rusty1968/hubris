@@ -5,7 +5,7 @@ name = "demo-ast1060-rot"
 version = "0.1.0"
 
 [features]
-dump = ["kern/dump"]
+#dump = ["kern/dump"]
 
 [dependencies]
 #ast1060-pac = { workspace = true, features = ["rt"] }

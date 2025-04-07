@@ -2,7 +2,7 @@ name = "demo-ast1060-rot"
 target = "thumbv7em-none-eabihf"
 board = "ast1060-rot"
 chip = "../../chips/ast1060"
-stacksize = 896
+stacksize = 1024 
 
 [kernel]
 name = "demo-ast1060-rot"
@@ -15,15 +15,6 @@ max-sizes = {flash = 8192, ram = 2048}
 start = true
 stacksize = 1536
 notifications = ["fault", "timer"]
-
-#[tasks.usart_driver]
-#name = "drv-ast1060-usart"
-#priority = 2
-#max-sizes = {flash = 8192, ram = 1024}
-#uses = ["uart1"]
-#start = true
-#notifications = ["uart1-irq"]
-#interrupts = {"uart1.irq" = "uart1-irq"}
 
 
 [tasks.idle]
