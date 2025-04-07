@@ -107,6 +107,7 @@ ssh-key = { version = "0.6.6", default-features = false, features = ["std", "p25
 spin = { version = "0.9.4", default-features = false, features = ["mutex", "spin_mutex"]}
 ssmarshal = { version = "1.0.0", default-features = false }
 static_assertions = { version = "1", default-features = false }
+ast1060-pac = { git = "https://github.com/rusty1968/ast1060-pac.git" , branch = "test" }
 stm32f3 = { version = "0.13.0", default-features = false }
 stm32f4 = { version = "0.13.0", default-features = false }
 stm32h7 = { version = "0.14", default-features = false }
