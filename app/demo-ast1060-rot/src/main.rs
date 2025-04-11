@@ -9,9 +9,18 @@
 // gets linked in.
 
 use cortex_m_rt::entry;
-
+use ast1060_pac::Peripherals;
 #[entry]
 fn main() -> ! {
+
+    let peripherals = unsafe {
+        Peripherals::steal()
+    };
+    peripherals.scu.scu000().modify(|_, w| {
+        w
+    });
+
+
     // Default boot speed, until we bother raising it:
     const CYCLES_PER_MS: u32 = 16_000;
 

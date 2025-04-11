@@ -201,7 +201,7 @@ SECTIONS
   }
 }
 
-/*INCLUDE device.x */
+INCLUDE device.x 
 
 /* Do not exceed this mark in the error messages below                                    | */
 /* # Alignment checks */

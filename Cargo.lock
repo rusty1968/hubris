@@ -158,9 +158,10 @@ checksum = "96d30a06541fbafbc7f82ed10c06164cfbd2c401138f6addd8404629c4b16711"
 [[package]]
 name = "ast1060-pac"
 version = "0.1.0"
-source = "git+https://github.com/rusty1968/ast1060-pac.git?branch=test#fd941efe96c999d0f0ddc64297d3827cae7162e6"
+source = "git+https://github.com/rusty1968/ast1060-pac.git?rev=dd1e5357d8274987b3e5a864a7bc49310bc0ccf7#dd1e5357d8274987b3e5a864a7bc49310bc0ccf7"
 dependencies = [
  "cortex-m",
+ "cortex-m-rt",
  "vcell",
 ]
 
