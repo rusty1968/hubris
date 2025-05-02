@@ -25,7 +25,7 @@ version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2c99f64d1e06488f620f932677e24bc6e2897582980441ae90a671415bd7ec2f"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "once_cell",
  "version_check",
 ]
@@ -113,7 +113,7 @@ name = "app-donglet"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "kern",
@@ -154,6 +154,26 @@ name = "arrayvec"
 version = "0.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "96d30a06541fbafbc7f82ed10c06164cfbd2c401138f6addd8404629c4b16711"
+
+[[package]]
+name = "ast1060-pac"
+version = "0.1.0"
+source = "git+https://github.com/rusty1968/ast1060-pac.git#dd1e5357d8274987b3e5a864a7bc49310bc0ccf7"
+dependencies = [
+ "cortex-m",
+ "cortex-m-rt",
+ "vcell",
+]
+
+[[package]]
+name = "ast1060-starter"
+version = "0.1.0"
+dependencies = [
+ "ast1060-pac",
+ "cortex-m",
+ "cortex-m-rt",
+ "kern",
+]
 
 [[package]]
 name = "atomic-polyfill"
@@ -251,6 +271,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8c3c1a368f70d6cf7302d78f8f7093da241fb8e8807c05cc9e51a125895a6d5b"
 
 [[package]]
+name = "bit_field"
+version = "0.10.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dc827186963e592360843fb5ba4b973e145841266c1357f7180c43526f2e5b61"
+
+[[package]]
 name = "bitfield"
 version = "0.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -310,7 +336,7 @@ dependencies = [
  "convert_case",
  "heck 0.5.0",
  "prettyplease",
- "quote",
+ "quote 1.0.35",
  "serde",
  "serde_json",
  "serde_with 3.6.1",
@@ -324,7 +350,7 @@ dependencies = [
  "anyhow",
  "build-util",
  "cargo_metadata",
- "cfg-if",
+ "cfg-if 1.0.0",
  "convert_case",
  "indexmap 1.9.1",
  "multimap",
@@ -347,12 +373,12 @@ dependencies = [
  "anyhow",
  "build-util",
  "call_rustfmt",
- "cfg-if",
+ "cfg-if 1.0.0",
  "convert_case",
  "indexmap 1.9.1",
  "multimap",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "serde",
  "syn 2.0.98",
 ]
@@ -365,8 +391,8 @@ dependencies = [
  "build-util",
  "convert_case",
  "indexmap 1.9.1",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "serde",
 ]
 
@@ -375,8 +401,8 @@ name = "build-spi"
 version = "0.1.0"
 dependencies = [
  "indexmap 1.9.1",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "serde",
  "syn 2.0.98",
 ]
@@ -387,10 +413,10 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "convert_case",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "serde",
  "syn 2.0.98",
 ]
@@ -511,6 +537,12 @@ dependencies = [
 
 [[package]]
 name = "cfg-if"
+version = "0.1.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4785bdd1c96b2a846b2bd7cc02e86b6b3dbf14e7e53446c4f54c92a361040822"
+
+[[package]]
+name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
@@ -583,8 +615,8 @@ checksum = "ea0c8bce528c4be4da13ea6fead8965e95b6073585a2f05204bd8f4119f82a65"
 dependencies = [
  "heck 0.4.1",
  "proc-macro-error",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 1.0.94",
 ]
 
@@ -595,8 +627,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0862016ff20d69b84ef8247369fabf5c008a7417002411897d40ee1f4532b873"
 dependencies = [
  "heck 0.4.1",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -675,7 +707,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "454f278bf469e2de0a4d22ea019d169d8944f86957c8207a39e3f66c32be2fc6"
 dependencies = [
  "cortex-m-rt-macros",
- "r0",
+ "r0 0.2.2",
 ]
 
 [[package]]
@@ -684,8 +716,8 @@ version = "0.6.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c8e3aa52243e26f5922fa522b0814019e0c98fc567e2756d715dce7ad7a81f49"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 1.0.94",
 ]
 
@@ -694,7 +726,7 @@ name = "cosmo"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "drv-stm32h7-startup",
@@ -715,8 +747,8 @@ dependencies = [
 name = "counters-derive"
 version = "0.1.0"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -756,7 +788,7 @@ version = "1.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a97769d94ddab943e4510d138150169a2758b5ef3eb191a9ee688de3e23ef7b3"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
 ]
 
 [[package]]
@@ -778,7 +810,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0dc92fb57ca44df6db8059111ab3af99a63d5d0f8375d9972e319a379c6bab76"
 dependencies = [
  "generic-array",
- "rand_core",
+ "rand_core 0.6.4",
  "subtle",
  "zeroize",
 ]
@@ -831,8 +863,8 @@ checksum = "2c34d8efb62d0c2d7f60ece80f75e5c63c1588ba68032740494b0b9a996466e3"
 dependencies = [
  "fnv",
  "ident_case",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "strsim",
  "syn 1.0.94",
 ]
@@ -845,8 +877,8 @@ checksum = "177e3443818124b357d8e76f53be906d60937f0d3a90773a664fa63fa253e621"
 dependencies = [
  "fnv",
  "ident_case",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "strsim",
  "syn 2.0.98",
 ]
@@ -858,7 +890,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ade7bff147130fe5e6d39f089c6bd49ec0250f35d70b2eebf72afdfc919f15cc"
 dependencies = [
  "darling_core 0.13.0",
- "quote",
+ "quote 1.0.35",
  "syn 1.0.94",
 ]
 
@@ -869,7 +901,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "836a9bbc7ad63342d6d6e7b815ccab164bc77a2d95d84bc3117a8c0d5c98e2d5"
 dependencies = [
  "darling_core 0.20.3",
- "quote",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -889,7 +921,7 @@ name = "demo-stm32g0-nucleo"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "kern",
@@ -901,7 +933,7 @@ name = "demo-stm32h7-nucleo"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "drv-stm32h7-startup",
@@ -928,8 +960,8 @@ version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8034092389675178f570469e6c3b0465d3d30b4505c294a6550db47f3c17ad18"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -948,8 +980,8 @@ name = "derive-idol-err"
 version = "0.1.0"
 dependencies = [
  "abi",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -960,8 +992,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4fb810d30a7c1953f91334de7244731fc3f3c10d7fe163338a35b9f640960321"
 dependencies = [
  "convert_case",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "rustc_version 0.4.0",
  "syn 1.0.94",
 ]
@@ -991,6 +1023,48 @@ dependencies = [
 ]
 
 [[package]]
+name = "drv-ast1060-hash"
+version = "0.1.0"
+dependencies = [
+ "ast1060-pac",
+ "drv-hash-api",
+ "userlib",
+ "vcell",
+ "zerocopy 0.6.6",
+]
+
+[[package]]
+name = "drv-ast1060-hash-server"
+version = "0.1.0"
+dependencies = [
+ "ast1060-pac",
+ "build-util",
+ "cfg-if 1.0.0",
+ "cortex-m",
+ "drv-ast1060-hash",
+ "drv-hash-api",
+ "idol",
+ "idol-runtime",
+ "num-traits",
+ "userlib",
+ "zerocopy 0.6.6",
+]
+
+[[package]]
+name = "drv-ast1060-usart"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "ast1060-pac",
+ "build-util",
+ "idol",
+ "nb 1.0.0",
+ "serde",
+ "userlib",
+ "zerocopy 0.6.6",
+]
+
+[[package]]
 name = "drv-auxflash-api"
 version = "0.1.0"
 dependencies = [
@@ -1014,7 +1088,7 @@ name = "drv-auxflash-server"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-auxflash-api",
  "drv-stm32h7-qspi",
  "drv-stm32xx-sys-api",
@@ -1075,7 +1149,7 @@ version = "0.1.0"
 dependencies = [
  "build-fpga-regmap",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "counters",
  "drv-auxflash-api",
  "drv-cpu-power-state",
@@ -1156,7 +1230,7 @@ name = "drv-fpga-devices"
 version = "0.1.0"
 dependencies = [
  "bitfield 0.13.2",
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-fpga-api",
  "drv-i2c-api",
  "drv-i2c-devices",
@@ -1174,7 +1248,7 @@ version = "0.1.0"
 dependencies = [
  "build-i2c",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-fpga-api",
  "drv-fpga-devices",
  "drv-i2c-api",
@@ -1229,7 +1303,7 @@ dependencies = [
  "build-stm32xx-sys",
  "build-util",
  "byteorder",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "counters",
  "drv-cpu-power-state",
@@ -1264,7 +1338,7 @@ version = "0.1.0"
 dependencies = [
  "build-fpga-regmap",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "counters",
  "drv-auxflash-api",
  "drv-cpu-power-state",
@@ -1370,7 +1444,7 @@ dependencies = [
  "bitfield 0.13.2",
  "build-fpga-regmap",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "counters",
  "derive-idol-err",
  "derive_more",
@@ -1390,7 +1464,7 @@ name = "drv-ignition-server"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-fpga-api",
  "drv-ignition-api",
  "drv-sidecar-mainboard-controller",
@@ -1444,7 +1518,7 @@ name = "drv-lpc55-gpio-api"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "counters",
  "derive-idol-err",
  "hubpack",
@@ -1473,7 +1547,7 @@ dependencies = [
 name = "drv-lpc55-rng"
 version = "0.1.0"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-lpc55-syscon-api",
  "drv-rng-api",
  "idol",
@@ -1481,7 +1555,7 @@ dependencies = [
  "lpc55-pac",
  "num-traits",
  "rand_chacha",
- "rand_core",
+ "rand_core 0.6.4",
  "userlib",
  "zerocopy 0.6.6",
 ]
@@ -1547,7 +1621,7 @@ dependencies = [
  "lpc55-rom-data",
  "lpc55_romapi",
  "num-traits",
- "quote",
+ "quote 1.0.35",
  "ringbuf",
  "salty",
  "serde",
@@ -1568,7 +1642,7 @@ dependencies = [
  "build-lpc55pins",
  "build-util",
  "call_rustfmt",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-lpc55-gpio-api",
  "drv-lpc55-spi",
@@ -1581,7 +1655,7 @@ dependencies = [
  "idol-runtime",
  "lpc55-pac",
  "num-traits",
- "quote",
+ "quote 1.0.35",
  "ringbuf",
  "rustc-demangle",
  "serde",
@@ -1668,7 +1742,7 @@ name = "drv-meanwell"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-meanwell-api",
  "drv-stm32xx-sys-api",
  "drv-user-leds-api",
@@ -1713,7 +1787,7 @@ version = "0.1.0"
 dependencies = [
  "build-i2c",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-fpga-api",
  "drv-fpga-user-api",
@@ -1897,7 +1971,7 @@ dependencies = [
  "idol-runtime",
  "num",
  "num-traits",
- "rand_core",
+ "rand_core 0.6.4",
  "userlib",
  "zerocopy 0.6.6",
 ]
@@ -1908,7 +1982,7 @@ version = "0.1.0"
 dependencies = [
  "build-i2c",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-i2c-api",
  "drv-i2c-devices",
  "drv-sbrmi-api",
@@ -1941,7 +2015,7 @@ version = "0.1.0"
 dependencies = [
  "build-fpga-regmap",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-auxflash-api",
  "drv-fpga-api",
  "drv-i2c-api",
@@ -1966,7 +2040,7 @@ dependencies = [
  "bitfield 0.13.2",
  "build-fpga-regmap",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "derive_more",
  "drv-auxflash-api",
  "drv-fpga-api",
@@ -2016,7 +2090,7 @@ dependencies = [
  "build-i2c",
  "build-util",
  "byteorder",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-fpga-api",
  "drv-fpga-user-api",
@@ -2054,7 +2128,7 @@ name = "drv-spartan7-loader"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "counters",
  "drv-auxflash-api",
  "drv-spartan7-spi-program",
@@ -2190,7 +2264,7 @@ dependencies = [
 name = "drv-stm32h7-eth"
 version = "0.1.0"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "stm32h7",
  "userlib",
@@ -2201,7 +2275,7 @@ name = "drv-stm32h7-fmc-demo-server"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "counters",
  "hubpack",
@@ -2231,7 +2305,7 @@ name = "drv-stm32h7-hash-server"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-hash-api",
  "drv-stm32h7-hash",
@@ -2305,7 +2379,7 @@ dependencies = [
  "build-spi",
  "build-util",
  "call_rustfmt",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "counters",
  "drv-spi-api",
@@ -2316,8 +2390,8 @@ dependencies = [
  "indexmap 1.9.1",
  "mutable-statics",
  "num-traits",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "regex",
  "ringbuf",
  "serde",
@@ -2334,7 +2408,7 @@ dependencies = [
  "attest-api",
  "build-stm32xx-sys",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-caboose",
  "drv-lpc55-update-api",
  "drv-spi-api",
@@ -2393,7 +2467,7 @@ dependencies = [
 name = "drv-stm32xx-gpio-common"
 version = "0.1.0"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "num-traits",
  "stm32g0",
  "stm32h7",
@@ -2407,7 +2481,7 @@ version = "0.1.0"
 dependencies = [
  "bitfield 0.13.2",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "counters",
  "drv-i2c-api",
  "drv-stm32xx-sys-api",
@@ -2426,7 +2500,7 @@ dependencies = [
  "anyhow",
  "build-i2c",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-i2c-api",
  "drv-stm32xx-i2c",
@@ -2447,7 +2521,7 @@ dependencies = [
  "bitflags 2.6.0",
  "build-stm32xx-sys",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "counters",
  "drv-stm32xx-gpio-common",
  "drv-stm32xx-sys-api",
@@ -2468,7 +2542,7 @@ name = "drv-stm32xx-sys-api"
 version = "0.1.0"
 dependencies = [
  "byteorder",
- "cfg-if",
+ "cfg-if 1.0.0",
  "counters",
  "derive-idol-err",
  "drv-stm32xx-gpio-common",
@@ -2484,7 +2558,7 @@ dependencies = [
 name = "drv-stm32xx-uid"
 version = "0.1.0"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
 ]
 
 [[package]]
@@ -2510,7 +2584,7 @@ version = "0.1.0"
 dependencies = [
  "build-i2c",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "counters",
  "drv-fpga-api",
  "drv-i2c-api",
@@ -2559,7 +2633,7 @@ name = "drv-user-leds"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-lpc55-gpio-api",
  "drv-stm32xx-sys-api",
  "drv-user-leds-api",
@@ -2627,6 +2701,29 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "453440c271cf5577fd2a40e4942540cb7d0d2f85e27c8d07dd0023c925a67541"
 
 [[package]]
+name = "e310x"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2b4f6d3e0a8850b1143b2c3058a190c71346a84caef6c2e1d55320e337d4a839"
+dependencies = [
+ "bare-metal 0.2.5",
+ "riscv 0.6.0",
+ "vcell",
+]
+
+[[package]]
+name = "e310x-hal"
+version = "0.9.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b261dbfefe6b4dcb3a827441e18b882d2bfa4c5ca559cf7c27ed70a329e22031"
+dependencies = [
+ "e310x",
+ "embedded-hal",
+ "nb 1.0.0",
+ "riscv 0.6.0",
+]
+
+[[package]]
 name = "ecdsa"
 version = "0.16.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2659,7 +2756,7 @@ dependencies = [
  "generic-array",
  "group",
  "pkcs8",
- "rand_core",
+ "rand_core 0.6.4",
  "sec1",
  "subtle",
  "zeroize",
@@ -2714,8 +2811,8 @@ version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4e40a16955681d469ab3da85aaa6b42ff656b3c67b52e1d8d3dd36afe97fd462"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 1.0.94",
 ]
 
@@ -2734,8 +2831,8 @@ version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f282cfdfe92516eb26c2af8589c274c7c17681f5ecc03c18255fe741c6aa64eb"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -2793,7 +2890,7 @@ version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ded41244b729663b1e574f1b4fb731469f69f79c17667b5d776b16cda0479449"
 dependencies = [
- "rand_core",
+ "rand_core 0.6.4",
  "subtle",
 ]
 
@@ -2803,7 +2900,7 @@ version = "0.2.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "975ccf83d8d9d0d84682850a38c8169027be83368805971cc4f238c2b245bc98"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "libc",
  "redox_syscall",
  "winapi",
@@ -2869,7 +2966,7 @@ name = "gemini-bu"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "drv-stm32h7-startup",
@@ -2894,7 +2991,7 @@ version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7fcd999463524c52659517fe2cea98493cfe485d10565e7b0fb07dbba7ad2753"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "libc",
  "wasi",
 ]
@@ -2904,7 +3001,7 @@ name = "gimlet"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "drv-stm32h7-startup",
@@ -2927,7 +3024,7 @@ name = "gimletlet"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "drv-stm32h7-startup",
@@ -2955,7 +3052,7 @@ name = "grapefruit"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "drv-stm32h7-startup",
@@ -2970,7 +3067,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f0f9ef7462f7c099f518d754361858f86d8a07af53ba9af0fe635bbccb151a63"
 dependencies = [
  "ff",
- "rand_core",
+ "rand_core 0.6.4",
  "subtle",
 ]
 
@@ -3062,6 +3159,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "hifive1"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9f3f660a0f39d48a1b0c8b6da4008573a93545d778e9ece62640991f63b28730"
+dependencies = [
+ "e310x-hal",
+ "embedded-hal",
+ "nb 1.0.0",
+ "riscv 0.6.0",
+]
+
+[[package]]
 name = "hkdf"
 version = "0.12.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3116,8 +3225,8 @@ version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0f928320aff16ee8818ef7309180f8b5897057fd79d9dcb8de3ed1ba6dcc125a"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 1.0.94",
 ]
 
@@ -3198,8 +3307,8 @@ dependencies = [
  "indexmap 1.9.1",
  "once_cell",
  "prettyplease",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "ron",
  "serde",
  "serde_with 3.6.1",
@@ -3324,14 +3433,14 @@ dependencies = [
  "build-util",
  "byteorder",
  "call_rustfmt",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "indexmap 1.9.1",
  "kerncore",
  "phash",
  "phash-gen",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "ron",
  "serde",
  "ssmarshal",
@@ -3444,7 +3553,7 @@ version = "0.4.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "51b9bbe6c47d51fc3e1a9b945965946b4c44142ab8792c50835a980d362c2710"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
 ]
 
 [[package]]
@@ -3452,9 +3561,9 @@ name = "lpc55-iocon-gen"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
- "proc-macro2",
- "quote",
+ "cfg-if 1.0.0",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "zerocopy 0.6.6",
 ]
 
@@ -3490,7 +3599,7 @@ dependencies = [
  "abi",
  "armv8-m-mpu",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "digest",
@@ -3521,7 +3630,7 @@ version = "0.1.0"
 dependencies = [
  "abi",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-caboose",
  "drv-lpc55-flash",
  "drv-lpc55-sha256",
@@ -3560,7 +3669,7 @@ dependencies = [
 name = "lpc55_romapi"
 version = "0.1.0"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "lpc55-pac",
  "lpc55-rom-data",
  "num-derive 0.4.2",
@@ -3597,7 +3706,7 @@ name = "lpc55xpresso"
 version = "0.1.0"
 dependencies = [
  "abi",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "kern",
@@ -3632,7 +3741,7 @@ name = "medusa"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "drv-stm32h7-startup",
@@ -3660,7 +3769,7 @@ name = "minibar"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "drv-stm32h7-startup",
@@ -3684,8 +3793,8 @@ version = "0.15.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bd2209fff77f705b00c737016a48e73733d7fbccb8b007194db148f03561fb70"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -3749,7 +3858,7 @@ checksum = "f305c2c2e4c39a82f7bf0bf65fb557f9070ce06781d4f2454295cc34b1c43188"
 dependencies = [
  "bitflags 1.3.2",
  "cc",
- "cfg-if",
+ "cfg-if 1.0.0",
  "libc",
  "memoffset",
 ]
@@ -3785,7 +3894,7 @@ dependencies = [
  "num-integer",
  "num-iter",
  "num-traits",
- "rand",
+ "rand 0.8.4",
  "serde",
  "smallvec 1.10.0",
  "zeroize",
@@ -3812,8 +3921,8 @@ version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "876a53fff98e03a936a674b29568b0e605f06b29372c2489ff4de23f1949743d"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 1.0.94",
 ]
 
@@ -3823,8 +3932,8 @@ version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ed3955f1a9c7c0c15e092f9c887db08b1fc683305fdf6eb6684f22555355e202"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -3908,7 +4017,7 @@ name = "oxcon2023g0"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "kern",
@@ -3929,7 +4038,7 @@ name = "oxide-rot-1"
 version = "0.1.0"
 dependencies = [
  "abi",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "kern",
@@ -3972,7 +4081,7 @@ dependencies = [
  "ecdsa",
  "elliptic-curve",
  "primeorder",
- "rand_core",
+ "rand_core 0.6.4",
  "sha2",
 ]
 
@@ -3993,8 +4102,8 @@ version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9cd6706dfe50d53e0f6aa09e12c034c44faacd23e966ae5a209e8bdb8f179f98"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 1.0.94",
 ]
 
@@ -4044,7 +4153,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "phash",
- "rand",
+ "rand 0.8.4",
  "rand_chacha",
 ]
 
@@ -4150,7 +4259,7 @@ version = "0.2.29"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6924ced06e1f7dfe3fa48d57b9f74f55d8915f5036121bef647ef4b204895fac"
 dependencies = [
- "proc-macro2",
+ "proc-macro2 1.0.93",
  "syn 2.0.98",
 ]
 
@@ -4170,8 +4279,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "da25490ff9892aab3fcf7c36f08cfb902dd3e71ca0f9f9517bea02a73a5ce38c"
 dependencies = [
  "proc-macro-error-attr",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 1.0.94",
  "version_check",
 ]
@@ -4182,8 +4291,8 @@ version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a1be40180e52ecc98ad80b184934baf3d0d29f979574e439af5a55274b35f869"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "version_check",
 ]
 
@@ -4192,6 +4301,15 @@ name = "proc-macro-hack"
 version = "0.5.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dbf0c48bc1d91375ae5c3cd81e3722dff1abcf81a30960240640d223f59fe0e5"
+
+[[package]]
+name = "proc-macro2"
+version = "0.4.30"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cf3d2011ab5c909338f7887f4fc896d35932e29146c12c8d01da6b22a80ba759"
+dependencies = [
+ "unicode-xid 0.1.0",
+]
 
 [[package]]
 name = "proc-macro2"
@@ -4207,7 +4325,7 @@ name = "psc"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "drv-stm32h7-startup",
@@ -4217,11 +4335,20 @@ dependencies = [
 
 [[package]]
 name = "quote"
+version = "0.6.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6ce23b6b870e8f94f81fb0a363d65d86675884b34a09043c81e5562f11c1f8e1"
+dependencies = [
+ "proc-macro2 0.4.30",
+]
+
+[[package]]
+name = "quote"
 version = "1.0.35"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "291ec9ab5efd934aaf503a6466c5d5251535d108ee747472c3977cc5acc868ef"
 dependencies = [
- "proc-macro2",
+ "proc-macro2 1.0.93",
 ]
 
 [[package]]
@@ -4231,10 +4358,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2a38df5b15c8d5c7e8654189744d8e396bddc18ad48041a500ce52d6948941f"
 
 [[package]]
+name = "r0"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bd7a31eed1591dcbc95d92ad7161908e72f4677f8fabf2a32ca49b4237cbf211"
+
+[[package]]
 name = "radium"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dc33ff2d4973d518d823d61aa239014831e521c75da58e3df4840d3f47749d09"
+
+[[package]]
+name = "rand"
+version = "0.5.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c618c47cd3ebd209790115ab837de41425723956ad3ce2e6a7f09890947cacb9"
+dependencies = [
+ "rand_core 0.3.1",
+]
 
 [[package]]
 name = "rand"
@@ -4243,7 +4385,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2e7573632e6454cf6b99d7aac4ccca54be06da05aca2ef7423d22d27d4d4bcd8"
 dependencies = [
  "rand_chacha",
- "rand_core",
+ "rand_core 0.6.4",
  "rand_hc",
 ]
 
@@ -4254,8 +4396,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e6c10a63a0fa32252be49d21e7709d4d4baf8d231c2dbce1eaa8141b9b127d88"
 dependencies = [
  "ppv-lite86",
- "rand_core",
+ "rand_core 0.6.4",
 ]
+
+[[package]]
+name = "rand_core"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7a6fdeb83b075e8266dcc8762c22776f6877a63111121f5f8c7411e5be7eed4b"
+dependencies = [
+ "rand_core 0.4.2",
+]
+
+[[package]]
+name = "rand_core"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9c33a3c44ca05fa6f1807d8e6743f3824e8509beca625669633be0acbdf509dc"
 
 [[package]]
 name = "rand_core"
@@ -4272,7 +4429,7 @@ version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d51e9f596de227fda2ea6c84607f5558e196eeaf43c986b724ba4fb8fdf497e7"
 dependencies = [
- "rand_core",
+ "rand_core 0.6.4",
 ]
 
 [[package]]
@@ -4326,6 +4483,62 @@ dependencies = [
 ]
 
 [[package]]
+name = "riscv"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a2f0b705d428e9d0f78e2bb73093887ee58a83c9688de3faedbb4c0631c4618e"
+dependencies = [
+ "bare-metal 0.2.5",
+ "bit_field",
+ "riscv-target",
+]
+
+[[package]]
+name = "riscv"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6907ccdd7a31012b70faf2af85cd9e5ba97657cc3987c4f13f8e4d2c2a088aba"
+dependencies = [
+ "bare-metal 1.0.0",
+ "bit_field",
+ "riscv-target",
+]
+
+[[package]]
+name = "riscv-rt"
+version = "0.8.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ab9f28dc850356196a36078c51c9dc7b46014a29a8fde35d5f81c99e489d0e00"
+dependencies = [
+ "r0 1.0.0",
+ "riscv 0.7.0",
+ "riscv-rt-macros",
+ "riscv-target",
+]
+
+[[package]]
+name = "riscv-rt-macros"
+version = "0.1.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3525f8341898dec060782087b7a15969e1cfe52818afacc47709265c19a23d53"
+dependencies = [
+ "proc-macro2 0.4.30",
+ "quote 0.6.13",
+ "rand 0.5.6",
+ "syn 0.15.44",
+]
+
+[[package]]
+name = "riscv-target"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "88aa938cda42a0cf62a20cfe8d139ff1af20c2e681212b5b34adb5a58333f222"
+dependencies = [
+ "lazy_static",
+ "regex",
+]
+
+[[package]]
 name = "ron"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4341,7 +4554,7 @@ name = "rot-carrier"
 version = "0.1.0"
 dependencies = [
  "abi",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "kern",
@@ -4365,7 +4578,7 @@ dependencies = [
  "num-traits",
  "pkcs1",
  "pkcs8",
- "rand_core",
+ "rand_core 0.6.4",
  "serde",
  "sha2",
  "signature",
@@ -4477,8 +4690,8 @@ version = "0.10.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "aaaae8f38bb311444cfb7f1979af0bc9240d95795f75f9ceddf6a59b79ceffa0"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 1.0.94",
 ]
 
@@ -4580,8 +4793,8 @@ version = "1.0.210"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "243902eda00fad750862fc144cea25caca5e20d615af0a81bee94ca738f1df1f"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -4602,8 +4815,8 @@ version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a2ad84e47328a31223de7fed7a4f5087f2d6ddfe586cf3ca25b7a165bc0a5aed"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 1.0.94",
 ]
 
@@ -4652,8 +4865,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "12e47be9471c72889ebafb5e14d5ff930d89ae7a67bbdb5f8abb564f845a927e"
 dependencies = [
  "darling 0.13.0",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 1.0.94",
 ]
 
@@ -4664,8 +4877,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "865f9743393e638991566a8b7a479043c2c8da94a33e0a31f18214c9cae0a64d"
 dependencies = [
  "darling 0.20.3",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -4675,7 +4888,7 @@ version = "0.10.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "793db75ad2bcafc3ffa7c68b215fee268f537982cd901d132f89c6343f3a3dc8"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "cpufeatures",
  "digest",
 ]
@@ -4695,7 +4908,7 @@ name = "sidecar"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "drv-stm32h7-startup",
@@ -4710,7 +4923,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8fe458c98333f9c8152221191a77e2a44e8325d0193484af2e9421a53019e57d"
 dependencies = [
  "digest",
- "rand_core",
+ "rand_core 0.6.4",
 ]
 
 [[package]]
@@ -4745,7 +4958,7 @@ checksum = "7e9786ac45091b96f946693e05bfa4d8ca93e2d3341237d97a380107a6b38dea"
 dependencies = [
  "bitflags 1.3.2",
  "byteorder",
- "cfg-if",
+ "cfg-if 1.0.0",
  "heapless",
  "managed",
 ]
@@ -4758,6 +4971,19 @@ dependencies = [
  "minicbor-serde",
  "serde",
  "unwrap-lite",
+]
+
+[[package]]
+name = "sparkfun-redv"
+version = "0.1.0"
+dependencies = [
+ "build-util",
+ "cfg-if 0.1.10",
+ "hifive1",
+ "kern",
+ "panic-halt",
+ "riscv 0.7.0",
+ "riscv-rt",
 ]
 
 [[package]]
@@ -4965,8 +5191,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ad8d03b598d3d0fff69bf533ee3ef19b8eeb342729596df84bcc7e1f96ec4059"
 dependencies = [
  "heck 0.4.1",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "rustversion",
  "syn 2.0.98",
 ]
@@ -4979,13 +5205,24 @@ checksum = "6bdef32e8150c2a081110b42772ffe7d7c9032b606bc226c8260fd97e0976601"
 
 [[package]]
 name = "syn"
+version = "0.15.44"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9ca4b3b69a77cbe1ffc9e198781b7acb0c7365a883670e8f1c1bc66fba79a5c5"
+dependencies = [
+ "proc-macro2 0.4.30",
+ "quote 0.6.13",
+ "unicode-xid 0.1.0",
+]
+
+[[package]]
+name = "syn"
 version = "1.0.94"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a07e33e919ebcd69113d5be0e4d70c5707004ff45188910106854f38b960df4a"
 dependencies = [
- "proc-macro2",
- "quote",
- "unicode-xid",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
+ "unicode-xid 0.2.2",
 ]
 
 [[package]]
@@ -4994,8 +5231,8 @@ version = "2.0.98"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "36147f1a48ae0ec2b5b3bc5b537d267457555a10dc06f3dbc8cb11ba3006d3b1"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "unicode-ident",
 ]
 
@@ -5036,7 +5273,7 @@ name = "task-caboose-reader"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-caboose",
  "drv-caboose-pos",
  "idol",
@@ -5051,8 +5288,8 @@ name = "task-config"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "serde",
  "syn 2.0.98",
  "toml",
@@ -5064,7 +5301,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "counters",
  "drv-auxflash-api",
  "drv-caboose",
@@ -5135,7 +5372,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-sprot-api",
  "dump-agent-api",
@@ -5167,7 +5404,7 @@ dependencies = [
  "idol",
  "idol-runtime",
  "num-traits",
- "quote",
+ "quote 1.0.35",
  "ringbuf",
  "serde",
  "userlib",
@@ -5210,7 +5447,7 @@ dependencies = [
  "build-i2c",
  "build-util",
  "byteorder",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-hash-api",
  "drv-hf-api",
@@ -5241,7 +5478,7 @@ dependencies = [
  "attest-data",
  "build-i2c",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "corncobs",
  "cortex-m",
  "counters",
@@ -5311,7 +5548,7 @@ dependencies = [
  "anyhow",
  "armv6m-atomic-hack",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "hubpack",
  "hubris-num-tasks",
@@ -5349,7 +5586,7 @@ name = "task-monorail-server"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "counters",
  "drv-medusa-seq-api",
  "drv-monorail-api",
@@ -5381,7 +5618,7 @@ dependencies = [
  "anyhow",
  "build-net",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "counters",
  "drv-cpu-seq-api",
@@ -5404,8 +5641,8 @@ dependencies = [
  "multitimer",
  "mutable-statics",
  "num-traits",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "regex",
  "ringbuf",
  "serde",
@@ -5463,7 +5700,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "drv-cpu-seq-api",
  "idol",
  "idol-runtime",
@@ -5522,7 +5759,7 @@ dependencies = [
  "anyhow",
  "build-i2c",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-cpu-seq-api",
  "drv-i2c-api",
@@ -5569,7 +5806,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-i2c-api",
  "drv-i2c-devices",
@@ -5631,7 +5868,7 @@ dependencies = [
  "build-util",
  "drv-sp-ctrl-api",
  "idol",
- "quote",
+ "quote 1.0.35",
  "ringbuf",
  "serde",
  "sha3",
@@ -5645,7 +5882,7 @@ dependencies = [
  "anyhow",
  "build-i2c",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-cpu-seq-api",
  "drv-i2c-api",
@@ -5721,7 +5958,7 @@ name = "task-uartecho"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-stm32h7-usart",
  "heapless",
@@ -5778,7 +6015,7 @@ dependencies = [
  "anyhow",
  "build-i2c",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-i2c-api",
  "drv-i2c-devices",
@@ -5818,7 +6055,7 @@ dependencies = [
  "anyhow",
  "build-i2c",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-i2c-api",
  "drv-i2c-devices",
@@ -5923,7 +6160,7 @@ version = "0.1.0"
 dependencies = [
  "armv6m-atomic-hack",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "hubris-num-tasks",
  "num-traits",
@@ -5939,7 +6176,7 @@ version = "0.1.0"
 dependencies = [
  "build-i2c",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "drv-i2c-api",
  "drv-i2c-devices",
@@ -5958,7 +6195,7 @@ name = "tests-gemini-bu"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "kern",
@@ -5970,7 +6207,7 @@ name = "tests-gimletlet"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "kern",
@@ -5981,7 +6218,7 @@ dependencies = [
 name = "tests-lpc55xpresso"
 version = "0.1.0"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "kern",
@@ -5996,7 +6233,7 @@ version = "0.1.0"
 name = "tests-rot-carrier"
 version = "0.1.0"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "kern",
@@ -6019,7 +6256,7 @@ name = "tests-stm32g0"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "kern",
@@ -6031,7 +6268,7 @@ name = "tests-stm32h7"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "cortex-m-rt",
  "kern",
@@ -6059,8 +6296,8 @@ version = "1.0.64"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "08904e7672f5eb876eaaf87e0ce17857500934f4981c4a0ab2b4aa98baac7fc3"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -6205,6 +6442,12 @@ checksum = "e5464a87b239f13a63a501f2701565754bae92d243d4bb7eb12f6d57d2269bf4"
 
 [[package]]
 name = "unicode-xid"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fc72304796d0818e357ead4e000d19c9c174ab23dc11093ac919054d20a6a7fc"
+
+[[package]]
+name = "unicode-xid"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ccb82d61f80a663efe1f787a51b16b5a51e3314d6ac365b08639f52387b33f3"
@@ -6228,7 +6471,7 @@ dependencies = [
  "armv6m-atomic-hack",
  "bstringify",
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "cortex-m",
  "critical-section",
  "num-derive 0.4.2",
@@ -6298,7 +6541,7 @@ name = "vsc7448"
 version = "0.1.0"
 dependencies = [
  "build-util",
- "cfg-if",
+ "cfg-if 1.0.0",
  "counters",
  "drv-spi-api",
  "hubpack",
@@ -6353,7 +6596,7 @@ version = "0.2.92"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4be2531df63900aeb2bca0daaaddec08491ee64ceecbee5076636a3b026795a8"
 dependencies = [
- "cfg-if",
+ "cfg-if 1.0.0",
  "wasm-bindgen-macro",
 ]
 
@@ -6366,8 +6609,8 @@ dependencies = [
  "bumpalo",
  "log",
  "once_cell",
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
  "wasm-bindgen-shared",
 ]
@@ -6378,7 +6621,7 @@ version = "0.2.92"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a1f8823de937b71b9460c0c34e25f3da88250760bec0ebac694b49997550d726"
 dependencies = [
- "quote",
+ "quote 1.0.35",
  "wasm-bindgen-macro-support",
 ]
 
@@ -6388,8 +6631,8 @@ version = "0.2.92"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e94f17b526d0a461a191c78ea52bbce64071ed5c04c9ffe424dcb38f74171bb7"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
  "wasm-bindgen-backend",
  "wasm-bindgen-shared",
@@ -6745,8 +6988,8 @@ version = "0.6.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "125139de3f6b9d625c39e2efdd73d41bdac468ccd556556440e322be0e1bbd91"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -6756,8 +6999,8 @@ version = "0.7.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9ce1b18ccd8e73a9321186f97e46f9f04b778851177567b1975109d26a08d2a6"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
@@ -6776,8 +7019,8 @@ version = "1.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ce36e65b0d2999d2aafac989fb249189a141aee1f53c612c1f37d72631959f69"
 dependencies = [
- "proc-macro2",
- "quote",
+ "proc-macro2 1.0.93",
+ "quote 1.0.35",
  "syn 2.0.98",
 ]
 
