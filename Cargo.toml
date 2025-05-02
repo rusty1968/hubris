@@ -45,6 +45,7 @@ path = "sys/abi"
 path = "lib/counters"
 
 [workspace.dependencies]
+ast1060-pac = { git = "https://github.com/rusty1968/ast1060-pac.git" }
 anyhow = { version = "1.0.31", default-features = false, features = ["std"] }
 array-init = { version = "2.1.0" }
 arrayvec = { version = "0.7.4", default-features = false }
