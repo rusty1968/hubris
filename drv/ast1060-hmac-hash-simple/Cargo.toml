@@ -1,0 +1,8 @@
+[package]
+name = "drv-ast1060-hmac-hash-simple"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aspeed-ddk = { git = "https://github.com/rusty1968/aspeed-rust.git", branch = "hmac_impl", default-features = false }
+userlib = { path = "../../sys/userlib" }

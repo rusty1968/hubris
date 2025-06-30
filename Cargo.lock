@@ -156,6 +156,44 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "96d30a06541fbafbc7f82ed10c06164cfbd2c401138f6addd8404629c4b16711"
 
 [[package]]
+name = "aspeed-ddk"
+version = "0.1.0"
+source = "git+https://github.com/rusty1968/aspeed-rust.git?branch=hmac_impl#8d59eab4a9e926783ce4f1538e4760b593a3481e"
+dependencies = [
+ "ast1060-pac",
+ "cortex-m",
+ "cortex-m-rt",
+ "embedded-hal 1.0.0",
+ "embedded-hal 1.0.0-alpha.1",
+ "embedded-io",
+ "fugit",
+ "hex-literal",
+ "panic-halt 1.0.0",
+ "proposed-traits",
+]
+
+[[package]]
+name = "ast1060-pac"
+version = "0.1.0"
+source = "git+https://github.com/rusty1968/ast1060-pac.git#dd1e5357d8274987b3e5a864a7bc49310bc0ccf7"
+dependencies = [
+ "cortex-m",
+ "cortex-m-rt",
+ "vcell",
+]
+
+[[package]]
+name = "async-trait"
+version = "0.1.88"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e539d3fca749fcee5236ab05e93a52867dd549cc157c8cb7f99595f3cedffdb5"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.98",
+]
+
+[[package]]
 name = "atomic-polyfill"
 version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -665,7 +703,7 @@ checksum = "cd20d4ac4aa86f4f75f239d59e542ef67de87cce2c282818dc6e84155d3ea126"
 dependencies = [
  "bare-metal 0.2.5",
  "bitfield 0.13.2",
- "embedded-hal",
+ "embedded-hal 0.2.6",
  "volatile-register",
 ]
 
@@ -989,6 +1027,14 @@ dependencies = [
  "const-oid",
  "crypto-common",
  "subtle",
+]
+
+[[package]]
+name = "drv-ast1060-hmac-hash-simple"
+version = "0.1.0"
+dependencies = [
+ "aspeed-ddk",
+ "userlib",
 ]
 
 [[package]]
@@ -1322,6 +1368,20 @@ dependencies = [
  "idol-runtime",
  "num-traits",
  "serde",
+ "userlib",
+ "zerocopy 0.8.25",
+ "zerocopy-derive 0.8.25",
+]
+
+[[package]]
+name = "drv-hmac-hash-api"
+version = "0.1.0"
+dependencies = [
+ "counters",
+ "derive-idol-err",
+ "idol",
+ "idol-runtime",
+ "num-traits",
  "userlib",
  "zerocopy 0.8.25",
  "zerocopy-derive 0.8.25",
@@ -2819,6 +2879,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "embedded-hal"
+version = "1.0.0-alpha.1"
+source = "git+https://github.com/rust-embedded/embedded-hal.git?rev=599d44fdc7e709cb9ae6580ec11c0b7f7f102#599d44fdc7e709cb9ae6580ec11c0b7f7f102981"
+dependencies = [
+ "nb 1.0.0",
+]
+
+[[package]]
+name = "embedded-hal"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "361a90feb7004eca4019fb28352a9465666b24f840f5c3cddf0ff13920590b89"
+
+[[package]]
+name = "embedded-io"
+version = "0.6.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "edd0f118536f44f5ccd48bcb8b111bdc3de888b58c74639dfb034a357d0f206d"
+
+[[package]]
+name = "embedded-storage"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a21dea9854beb860f3062d10228ce9b976da520a73474aed3171ec276bc0c032"
+
+[[package]]
 name = "encode_unicode"
 version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2832,7 +2918,7 @@ dependencies = [
  "cortex-m-rt",
  "drv-stm32h7-startup",
  "endoscope-abi",
- "panic-halt",
+ "panic-halt 0.2.0",
  "sha3",
  "stm32h7",
 ]
@@ -2979,6 +3065,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
 
 [[package]]
+name = "fugit"
+version = "0.3.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "17186ad64927d5ac8f02c1e77ccefa08ccd9eaa314d5a4772278aa204a22f7e7"
+dependencies = [
+ "gcd",
+]
+
+[[package]]
 name = "funty"
 version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3001,6 +3096,12 @@ dependencies = [
  "uuid",
  "zerocopy 0.8.25",
 ]
+
+[[package]]
+name = "gcd"
+version = "2.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1d758ba1b47b00caf47f24925c0074ecb20d6dfcffe7f6d53395c0465674841a"
 
 [[package]]
 name = "gemini-bu"
@@ -3188,6 +3289,12 @@ name = "hex"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
+
+[[package]]
+name = "hex-literal"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6fe2267d4ed49bc07b63801559be28c718ea06c4738b7a03c94df7386d2cde46"
 
 [[package]]
 name = "hif"
@@ -3549,7 +3656,7 @@ dependencies = [
 name = "lib-lpc55-usart"
 version = "0.1.0"
 dependencies = [
- "embedded-hal",
+ "embedded-hal 0.2.6",
  "lpc55-pac",
  "nb 1.0.0",
  "unwrap-lite",
@@ -4158,6 +4265,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "de96540e0ebde571dc55c73d60ef407c653844e6f9a1e2fdbd40c07b9252d812"
 
 [[package]]
+name = "panic-halt"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a513e167849a384b7f9b746e517604398518590a9142f4846a32e3c2a4de7b11"
+
+[[package]]
 name = "paste"
 version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4353,6 +4466,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "60946a68e5f9d28b0dc1c21bb8a97ee7d018a8b322fa57838ba31cc878e22d99"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "proposed-traits"
+version = "0.1.0"
+source = "git+https://github.com/rusty1968/proposed_traits.git?rev=43fe54addf323dc17915f1fc5f991f9d94eb161a#43fe54addf323dc17915f1fc5f991f9d94eb161a"
+dependencies = [
+ "async-trait",
+ "embedded-hal 1.0.0",
+ "embedded-io",
+ "embedded-storage",
+ "rand_core",
 ]
 
 [[package]]
@@ -5429,6 +5554,14 @@ dependencies = [
  "userlib",
  "zerocopy 0.8.25",
  "zerocopy-derive 0.8.25",
+]
+
+[[package]]
+name = "task-hmac-hash-test"
+version = "0.1.0"
+dependencies = [
+ "drv-hmac-hash-api",
+ "userlib",
 ]
 
 [[package]]
