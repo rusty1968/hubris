@@ -1,0 +1,20 @@
+[package]
+name = "task-hmac-hash"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cfg-if = { workspace = true }
+drv-hmac-hash-api = { path = "../../drv/hmac-hash-api" }
+userlib = { path = "../../sys/userlib" }
+
+[features]
+
+[[bin]]
+name = "task-hmac-hash"
+test = false
+doctest = false
+bench = false
+
+[lints]
+workspace = true

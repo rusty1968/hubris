@@ -1,0 +1,4 @@
+# AST1060 RoT board configuration
+
+[tasks.hmac_hash_driver]
+uses = ["hace_controller"]

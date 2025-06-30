@@ -1,0 +1,71 @@
+// AST1060 HMAC+Hash IPC API
+
+Interface(
+    name: "HmacHash",
+    ops: {
+        "init_sha256": (
+            args: {},
+            reply: Result(
+                ok: "()",
+                err: CLike("HmacHashError"),
+            ),
+        ),
+        "init_hmac_sha256": (
+            args: {
+                "key_len": "u32",
+            },
+            leases: {
+                "key": (type: "[u8]", read: true, max_len: Some(64)),
+            },
+            reply: Result(
+                ok: "()",
+                err: CLike("HmacHashError"),
+            ),
+        ),
+        "update": (
+            args: {
+                "len": "u32",
+            },
+            leases: {
+                "data": (type: "[u8]", read: true, max_len: Some(512)),
+            },
+            reply: Result(
+                ok: "()",
+                err: CLike("HmacHashError"),
+            ),
+        ),
+        "finalize_sha256": (
+            args: {},
+            reply: Result(
+                ok: "[u8; crate::SHA256_SZ]",
+                err: CLike("HmacHashError"),
+            ),
+        ),
+        "digest_sha256": (
+            args: {
+                "len": "u32",
+            },
+            leases: {
+                "data": (type: "[u8]", read: true, max_len: Some(512)),
+            },
+            reply: Result(
+                ok: "[u8; crate::SHA256_SZ]",
+                err: CLike("HmacHashError"),
+            ),
+        ),
+        "digest_hmac_sha256": (
+            args: {
+                "data_len": "u32",
+                "key_len": "u32",
+            },
+            leases: {
+                "data": (type: "[u8]", read: true, max_len: Some(512)),
+                "key": (type: "[u8]", read: true, max_len: Some(64)),
+            },
+            reply: Result(
+                ok: "[u8; crate::SHA256_SZ]",
+                err: CLike("HmacHashError"),
+            ),
+        ),
+    },
+)
