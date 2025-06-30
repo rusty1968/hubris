@@ -1,0 +1,5 @@
+# AST1060 SoC peripheral definitions
+
+[hace_controller]
+address = 0x1e6d0000
+size = 0x400

@@ -1,0 +1,23 @@
+[package]
+name = "drv-ast1060-hmac-hash"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ast1060-pac.workspace = true
+vcell.workspace = true
+zerocopy.workspace = true
+zerocopy-derive.workspace = true
+
+drv-hmac-hash-api = { path = "../hmac-hash-api" }
+userlib = { path = "../../sys/userlib" }
+aspeed-ddk = { git = "https://github.com/rusty1968/aspeed-rust.git", branch = "hmac_impl", default-features = false }
+cortex-m = { workspace = true }
+
+[lib]
+test = false
+doctest = false
+bench = false
+
+[lints]
+workspace = true
