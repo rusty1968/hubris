@@ -3,6 +3,35 @@
 Interface(
     name: "HmacHash",
     ops: {
+        "get_supported_algorithms": (
+            args: {},
+            reply: Result(
+                ok: "u32", // Bitmask of supported algorithms
+                err: CLike("HmacHashError"),
+            ),
+        ),
+        "init_hash": (
+            args: {
+                "algorithm": "u32", // Algorithm selector (1=SHA1, 2=SHA256, 3=SHA384, 4=SHA512)
+            },
+            reply: Result(
+                ok: "()",
+                err: CLike("HmacHashError"),
+            ),
+        ),
+        "init_hmac": (
+            args: {
+                "algorithm": "u32", // Algorithm selector
+                "key_len": "u32",
+            },
+            leases: {
+                "key": (type: "[u8]", read: true, max_len: Some(64)),
+            },
+            reply: Result(
+                ok: "()",
+                err: CLike("HmacHashError"),
+            ),
+        ),
         "init_sha256": (
             args: {},
             reply: Result(
@@ -35,9 +64,46 @@ Interface(
             ),
         ),
         "finalize": (
+            args: {
+                "algorithm": "u32", // Algorithm used for init (for digest size)
+            },
+            reply: Result(
+                ok: "[u8; crate::MAX_DIGEST_SZ]", // Maximum digest size array
+                err: CLike("HmacHashError"),
+            ),
+        ),
+        "finalize_sha256": (
             args: {},
             reply: Result(
                 ok: "[u8; crate::SHA256_SZ]",
+                err: CLike("HmacHashError"),
+            ),
+        ),
+        "hash": (
+            args: {
+                "algorithm": "u32", // Algorithm selector
+                "data_len": "u32",
+            },
+            leases: {
+                "data": (type: "[u8]", read: true, max_len: Some(512)),
+            },
+            reply: Result(
+                ok: "[u8; crate::MAX_DIGEST_SZ]",
+                err: CLike("HmacHashError"),
+            ),
+        ),
+        "hmac": (
+            args: {
+                "algorithm": "u32", // Algorithm selector
+                "data_len": "u32",
+                "key_len": "u32",
+            },
+            leases: {
+                "data": (type: "[u8]", read: true, max_len: Some(512)),
+                "key": (type: "[u8]", read: true, max_len: Some(64)),
+            },
+            reply: Result(
+                ok: "[u8; crate::MAX_DIGEST_SZ]",
                 err: CLike("HmacHashError"),
             ),
         ),
@@ -64,6 +130,15 @@ Interface(
             },
             reply: Result(
                 ok: "[u8; crate::SHA256_SZ]",
+                err: CLike("HmacHashError"),
+            ),
+        ),
+        "get_digest_size": (
+            args: {
+                "algorithm": "u32", // Algorithm selector
+            },
+            reply: Result(
+                ok: "u32", // Digest size in bytes
                 err: CLike("HmacHashError"),
             ),
         ),
