@@ -1034,6 +1034,7 @@ name = "drv-ast1060-hmac-hash-simple"
 version = "0.1.0"
 dependencies = [
  "aspeed-ddk",
+ "ast1060-pac",
  "userlib",
 ]
 
