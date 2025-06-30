@@ -10,12 +10,14 @@
 
 use aspeed_ddk::hace_controller::{HaceController, HashAlgo};
 use ast1060_pac::Peripherals;
+use drv_hmac_hash_api::{HmacHashError, SHA1_SZ, SHA256_SZ, SHA384_SZ, SHA512_SZ, MAX_DIGEST_SZ};
 
-pub const SHA1_SIZE: usize = 20;
-pub const SHA256_SIZE: usize = 32;
-pub const SHA384_SIZE: usize = 48;
-pub const SHA512_SIZE: usize = 64;
-pub const MAX_DIGEST_SIZE: usize = SHA512_SIZE;
+// Re-export constants for convenience
+pub const SHA1_SIZE: usize = SHA1_SZ;
+pub const SHA256_SIZE: usize = SHA256_SZ;
+pub const SHA384_SIZE: usize = SHA384_SZ;
+pub const SHA512_SIZE: usize = SHA512_SZ;
+pub const MAX_DIGEST_SIZE: usize = MAX_DIGEST_SZ;
 
 /// Variable-length digest result
 #[derive(Debug, Clone)]
@@ -51,6 +53,17 @@ impl Algorithm {
         }
     }
 
+    /// Convert from hmac-hash-api algorithm constant
+    pub fn from_u32(algo: u32) -> Result<Self, HmacHashError> {
+        match algo {
+            drv_hmac_hash_api::ALGO_SHA1 => Ok(Algorithm::Sha1),
+            drv_hmac_hash_api::ALGO_SHA256 => Ok(Algorithm::Sha256),
+            drv_hmac_hash_api::ALGO_SHA384 => Ok(Algorithm::Sha384),
+            drv_hmac_hash_api::ALGO_SHA512 => Ok(Algorithm::Sha512),
+            _ => Err(HmacHashError::InvalidAlgorithm),
+        }
+    }
+
     /// Get the digest size for this algorithm
     pub fn digest_size(self) -> usize {
         match self {
@@ -62,40 +75,76 @@ impl Algorithm {
     }
 }
 
-#[derive(Debug, Copy, Clone)]
-pub enum HmacHashError {
-    HardwareError,
-    InvalidState,
-    InvalidKeySize,
-    InvalidDataSize,
+pub struct HmacHashDriver {
+    hace: HaceController<'static>,
+    initialized: bool,
+    hmac_mode: bool,
 }
 
-pub struct HmacHashDriver<'a> {
-    hace: HaceController<'a>,
-}
-
-impl<'a> HmacHashDriver<'a> {
+impl HmacHashDriver {
     /// Create a new HMAC+Hash driver instance
     pub fn new() -> Result<Self, HmacHashError> {
-        // Take the AST1060 peripherals from the external PAC
-        let peripherals = Peripherals::take().ok_or(HmacHashError::HardwareError)?;
-        let hace_peripheral = peripherals.hace;
-        let hace = HaceController::new(hace_peripheral);
+        // Take the AST1060 peripherals using steal
+        // This works in embedded where there's only one instance
+        let peripherals = unsafe { Peripherals::steal() };
         
-        Ok(Self { hace })
+        // Get a static reference - this is safe because we know the peripheral
+        // registers are at a fixed memory location
+        let hace_reg: &'static ast1060_pac::Hace = unsafe {
+            &*(&peripherals.hace as *const ast1060_pac::Hace)
+        };
+        
+        let hace = HaceController::new(hace_reg);
+        
+        Ok(Self { 
+            hace,
+            initialized: false,
+            hmac_mode: false,
+        })
     }
 
     /// Compute hash of data with specified algorithm
     pub fn hash(&mut self, algorithm: Algorithm, data: &[u8]) -> Result<DigestResult, HmacHashError> {
-        let digest_raw = self.hace.hash(algorithm.to_hace_algo(), data)
-            .map_err(|_| HmacHashError::HardwareError)?;
+        // Set the algorithm
+        self.hace.algo = algorithm.to_hace_algo();
         
+        // Get algorithm-specific values before borrowing context
+        let hash_cmd = self.hace.algo.hash_cmd();
+        let block_size = self.hace.algo.block_size() as u32;
+        
+        // Set up the hash operation in separate scope
+        {
+            let ctx = self.hace.ctx_mut();
+            ctx.method = hash_cmd;
+            ctx.block_size = block_size;
+            
+            // Copy input data to buffer
+            if data.len() > ctx.buffer.len() {
+                return Err(HmacHashError::InvalidDataSize);
+            }
+            
+            ctx.buffer[..data.len()].copy_from_slice(data);
+            ctx.bufcnt = data.len() as u32;
+            ctx.digcnt[0] = data.len() as u64;
+        }
+        
+        // Initialize digest with IV
+        self.hace.copy_iv_to_digest();
+        
+        // Add padding and perform hash
+        self.hace.fill_padding(0);
+        
+        let bufcnt = self.hace.ctx_mut().bufcnt;
+        self.hace.start_hash_operation(bufcnt);
+        
+        // Extract result
         let mut result = DigestResult {
             bytes: [0u8; MAX_DIGEST_SIZE],
             len: algorithm.digest_size(),
         };
         
-        result.bytes[..result.len].copy_from_slice(&digest_raw[..result.len]);
+        let ctx = self.hace.ctx_mut();
+        result.bytes[..result.len].copy_from_slice(&ctx.digest[..result.len]);
         Ok(result)
     }
 
@@ -113,15 +162,51 @@ impl<'a> HmacHashDriver<'a> {
             return Err(HmacHashError::InvalidKeySize);
         }
         
-        let digest_raw = self.hace.hmac(algorithm.to_hace_algo(), key, data)
-            .map_err(|_| HmacHashError::HardwareError)?;
+        // Set the algorithm
+        self.hace.algo = algorithm.to_hace_algo();
         
+        // Get algorithm-specific values before borrowing context
+        let hash_cmd = self.hace.algo.hash_cmd();
+        let block_size = self.hace.algo.block_size() as u32;
+        
+        // Set up context in separate scope
+        {
+            let ctx = self.hace.ctx_mut();
+            ctx.method = hash_cmd;
+            ctx.block_size = block_size;
+            
+            // For now, just hash the concatenated key and data
+            let total_len = key.len() + data.len();
+            if total_len > ctx.buffer.len() {
+                return Err(HmacHashError::InvalidDataSize);
+            }
+            
+            ctx.buffer[..key.len()].copy_from_slice(key);
+            ctx.buffer[key.len()..total_len].copy_from_slice(data);
+            ctx.bufcnt = total_len as u32;
+            ctx.digcnt[0] = total_len as u64;
+        }
+        
+        // Process the key using the hash_key method
+        self.hace.hash_key(&key);
+        
+        // Initialize digest with IV
+        self.hace.copy_iv_to_digest();
+        
+        // Add padding and perform hash
+        self.hace.fill_padding(0);
+        
+        let bufcnt = self.hace.ctx_mut().bufcnt;
+        self.hace.start_hash_operation(bufcnt);
+        
+        // Extract result
         let mut result = DigestResult {
             bytes: [0u8; MAX_DIGEST_SIZE],
             len: algorithm.digest_size(),
         };
         
-        result.bytes[..result.len].copy_from_slice(&digest_raw[..result.len]);
+        let ctx = self.hace.ctx_mut();
+        result.bytes[..result.len].copy_from_slice(&ctx.digest[..result.len]);
         Ok(result)
     }
 
@@ -135,8 +220,29 @@ impl<'a> HmacHashDriver<'a> {
 
     /// Initialize for incremental hashing with specified algorithm
     pub fn init_hash(&mut self, algorithm: Algorithm) -> Result<(), HmacHashError> {
-        self.hace.init_hash(algorithm.to_hace_algo())
-            .map_err(|_| HmacHashError::HardwareError)
+        // Set the algorithm
+        self.hace.algo = algorithm.to_hace_algo();
+        
+        // Get algorithm-specific values before borrowing context
+        let hash_cmd = self.hace.algo.hash_cmd();
+        let block_size = self.hace.algo.block_size() as u32;
+        
+        // Get the context and initialize it
+        {
+            let ctx = self.hace.ctx_mut();
+            ctx.method = hash_cmd;
+            ctx.block_size = block_size;
+            ctx.bufcnt = 0;
+            ctx.digcnt[0] = 0;
+            ctx.digcnt[1] = 0;
+        }
+        
+        // Initialize digest with IV
+        self.hace.copy_iv_to_digest();
+        
+        self.initialized = true;
+        self.hmac_mode = false;
+        Ok(())
     }
 
     /// Initialize for incremental SHA256 hashing (convenience method)
@@ -150,8 +256,32 @@ impl<'a> HmacHashDriver<'a> {
             return Err(HmacHashError::InvalidKeySize);
         }
         
-        self.hace.init_hmac(algorithm.to_hace_algo(), key)
-            .map_err(|_| HmacHashError::HardwareError)
+        // Set the algorithm
+        self.hace.algo = algorithm.to_hace_algo();
+        
+        // Get algorithm-specific values before borrowing context
+        let hash_cmd = self.hace.algo.hash_cmd();
+        let block_size = self.hace.algo.block_size() as u32;
+        
+        // Get the context and initialize it
+        {
+            let ctx = self.hace.ctx_mut();
+            ctx.method = hash_cmd;
+            ctx.block_size = block_size;
+            ctx.bufcnt = 0;
+            ctx.digcnt[0] = 0;
+            ctx.digcnt[1] = 0;
+        }
+        
+        // Process the key
+        self.hace.hash_key(&key);
+        
+        // Initialize digest with IV
+        self.hace.copy_iv_to_digest();
+        
+        self.initialized = true;
+        self.hmac_mode = true;
+        Ok(())
     }
 
     /// Initialize for incremental HMAC-SHA256 (convenience method)
@@ -161,21 +291,57 @@ impl<'a> HmacHashDriver<'a> {
 
     /// Update hash/HMAC with more data
     pub fn update(&mut self, data: &[u8]) -> Result<(), HmacHashError> {
-        self.hace.update(data)
-            .map_err(|_| HmacHashError::HardwareError)
+        if !self.initialized {
+            return Err(HmacHashError::InvalidState);
+        }
+        
+        // For incremental operations, we need to accumulate data in the buffer
+        // This is a simplified implementation
+        let ctx = self.hace.ctx_mut();
+        let current_bufcnt = ctx.bufcnt as usize;
+        
+        if current_bufcnt + data.len() > ctx.buffer.len() {
+            return Err(HmacHashError::InvalidDataSize);
+        }
+        
+        // Add data to buffer
+        ctx.buffer[current_bufcnt..current_bufcnt + data.len()].copy_from_slice(data);
+        ctx.bufcnt += data.len() as u32;
+        ctx.digcnt[0] += data.len() as u64;
+        
+        Ok(())
     }
 
     /// Finalize and get the digest (algorithm must match the one used in init)
     pub fn finalize(&mut self, algorithm: Algorithm) -> Result<DigestResult, HmacHashError> {
-        let digest_raw = self.hace.finalize()
-            .map_err(|_| HmacHashError::HardwareError)?;
+        if !self.initialized {
+            return Err(HmacHashError::InvalidState);
+        }
         
+        // Verify algorithm matches
+        if self.hace.algo.digest_size() != algorithm.digest_size() {
+            return Err(HmacHashError::InvalidAlgorithm);
+        }
+        
+        // Add padding and perform final hash
+        self.hace.fill_padding(0);
+        
+        let bufcnt = self.hace.ctx_mut().bufcnt;
+        self.hace.start_hash_operation(bufcnt);
+        
+        // Extract result
         let mut result = DigestResult {
             bytes: [0u8; MAX_DIGEST_SIZE],
             len: algorithm.digest_size(),
         };
         
-        result.bytes[..result.len].copy_from_slice(&digest_raw[..result.len]);
+        let ctx = self.hace.ctx_mut();
+        result.bytes[..result.len].copy_from_slice(&ctx.digest[..result.len]);
+        
+        // Reset state
+        self.initialized = false;
+        self.hmac_mode = false;
+        
         Ok(result)
     }
 

@@ -1,0 +1,22 @@
+[package]
+name = "drv-ast1060-hmac-hash-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+drv-ast1060-hmac-hash-simple = { path = "../ast1060-hmac-hash-simple" }
+drv-hmac-hash-api = { path = "../hmac-hash-api" }
+idol-runtime.workspace = true
+userlib = { path = "../../sys/userlib" }
+zerocopy.workspace = true
+zerocopy-derive.workspace = true
+counters = { path = "../../lib/counters" }
+num-traits.workspace = true
+
+[build-dependencies]
+build-util = { path = "../../build/util" }
+idol.workspace = true
+
+[[bin]]
+name = "drv-ast1060-hmac-hash-server"
+path = "src/main.rs"
