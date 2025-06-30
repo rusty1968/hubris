@@ -913,6 +913,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "demo-ast1060"
+version = "0.1.0"
+dependencies = [
+ "ast1060-pac",
+ "cortex-m",
+ "cortex-m-rt",
+ "kern",
+]
+
+[[package]]
 name = "demo-stm32f4-discovery"
 version = "0.1.0"
 dependencies = [
@@ -5441,6 +5451,13 @@ dependencies = [
  "userlib",
  "zerocopy 0.8.25",
  "zerocopy-derive 0.8.25",
+]
+
+[[package]]
+name = "task-demo-ast1060"
+version = "0.1.0"
+dependencies = [
+ "userlib",
 ]
 
 [[package]]

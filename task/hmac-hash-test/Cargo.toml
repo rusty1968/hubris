@@ -1,0 +1,8 @@
+[package]
+name = "task-hmac-hash-test"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+drv-hmac-hash-api = { path = "../../drv/hmac-hash-api" }
+userlib = { path = "../../sys/userlib" }

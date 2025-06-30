@@ -1,0 +1,25 @@
+[package]
+edition = "2021"
+name = "demo-ast1060"
+version = "0.1.0"
+readme = "README.md"
+
+[features]
+dump = ["kern/dump"]
+
+[dependencies]
+cortex-m = { workspace = true }
+cortex-m-rt = { workspace = true }
+kern = { path = "../../sys/kern" }
+ast1060-pac = { workspace = true, features = ["rt"] }
+
+
+# this lets you use `cargo fix`!
+[[bin]]
+name = "demo-ast1060"
+test = false
+doctest = false
+bench = false
+
+[lints]
+workspace = true

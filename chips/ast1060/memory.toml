@@ -1,0 +1,31 @@
+# AST1060 SoC Memory Layout
+# Based on AST1060 specification and memory map
+
+# Flash regions - AST1060 typically uses external SPI flash
+# Single image configuration for demo
+[[flash]]
+name = "default"
+address = 0x20000000  # Typical SPI flash mapping base
+size = 0x200000       # 2MB for demo image
+read = true
+execute = true
+
+# Main System RAM (128K from 0x0002_0000 to 0x0003_FFFF)
+[[ram]]
+name = "default"
+address = 0x00020000
+size = 0x20000        # 128K
+read = true
+write = true
+execute = false
+
+# Non-Cacheable RAM (128K from 0x000A_0000 to 0x000B_FFFF)
+# This can be used for DMA operations and non-cached data
+[[ram]]
+name = "dma"
+address = 0x000A0000
+size = 0x20000        # 128K
+read = true
+write = true
+execute = false
+dma = true

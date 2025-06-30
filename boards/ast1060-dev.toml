@@ -1,0 +1,5 @@
+# AST1060 Development Board Configuration
+# This board configuration is for AST1060 SoC development and testing
+
+[probe-rs]
+chip-name = "AST1060"

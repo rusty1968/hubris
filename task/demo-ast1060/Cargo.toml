@@ -1,0 +1,10 @@
+[package]
+name = "task-demo-ast1060"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+userlib = { path = "../../sys/userlib", features = ["panic-messages"] }
+
+[lints]
+workspace = true
