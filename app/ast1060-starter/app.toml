@@ -16,20 +16,6 @@ start = true
 stacksize = 1536
 notifications = ["fault", "timer"]
 
-[tasks.hmac_hash_driver]
-name = "drv-ast1060-hmac-hash-server"
-priority = 1
-max-sizes = {flash = 16384, ram = 4096}
-stacksize = 2048
-start = true
-
-[tasks.hmac_hash_task]
-name = "task-hmac-hash"
-priority = 2
-max-sizes = {flash = 8192, ram = 2048}
-stacksize = 1024
-start = true
-task-slots = ["hmac_hash_driver"]
 
 [tasks.idle]
 name = "task-idle"
