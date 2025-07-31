@@ -12,9 +12,7 @@ use cortex_m_rt::entry;
 use ast1060_pac::Peripherals;
 
 #[cfg(feature = "jtag-halt")]
-use core::ptr;
-#[cfg(feature = "jtag-halt")]
-use core::ptr::addr_of;
+use core::ptr::{self, addr_of};
 
 #[entry]
 fn main() -> ! {
@@ -48,6 +46,9 @@ fn main() -> ! {
 fn jtag_halt() {
     static mut HALT : u32 = 1;
 
+    // This is a hack to halt the CPU in JTAG mode.
+    // It writes a value to a volatile memory location
+    // Break by jtag and set val to zero to continue.
     loop {
         let val;
         unsafe {
