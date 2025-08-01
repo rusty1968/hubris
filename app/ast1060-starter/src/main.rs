@@ -37,7 +37,7 @@ fn main() -> ! {
     jtag_halt();
 
     // Default boot speed, until we bother raising it:
-    const CYCLES_PER_MS: u32 = 16_000;
+    const CYCLES_PER_MS: u32 = 200_000;
 
     unsafe { kern::startup::start_kernel(CYCLES_PER_MS) }
 }
