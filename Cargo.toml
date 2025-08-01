@@ -48,7 +48,7 @@ path = "lib/counters"
 anyhow = { version = "1.0.31", default-features = false, features = ["std"] }
 array-init = { version = "2.1.0" }
 arrayvec = { version = "0.7.4", default-features = false }
-aspeed-ddk = { git = "https://github.com/aspeedtech-bmc/ast1060-rust.git" }
+aspeed-ddk = { git = "https://github.com/aspeedtech-bmc/aspeed-rust.git" }
 ast1060-pac = { git = "https://github.com/aspeedtech-bmc/ast1060-pac.git" }
 atty = { version = "0.2", default-features = false }
 bitfield = { version = "0.13", default-features = false }

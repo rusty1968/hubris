@@ -22,3 +22,21 @@ priority = 5
 max-sizes = {flash = 128, ram = 256}
 stacksize = 256
 start = true
+
+[tasks.uart_driver]
+name = "drv-ast1060-uart"
+priority = 2
+max-sizes = {flash = 8192, ram = 2048}
+uses = ["uart"]
+start = true
+notifications = ["uart-irq"]
+interrupts = {"uart.irq" = "uart-irq"}
+# task-slots = ["rcc_driver"]
+
+[tasks.helloworld]
+name = "task-helloworld"
+priority = 3
+max-sizes = {flash = 8192, ram = 2048}
+uses = ["uart"]
+start = true
+task-slots = ["uart_driver"]
