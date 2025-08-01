@@ -24,7 +24,6 @@ impl<'a> From<&'a device::uart::RegisterBlock> for Usart<'a> {
     // this function assumes that all necessary configuration of the syscon,
     // flexcomm and gpio have been done
     fn from(usart: &'a device::uart::RegisterBlock) -> Self {
-        ///*
         unsafe {
             usart.uartfcr().write(|w| {
                 w.enbl_uartfifo().set_bit();
@@ -33,10 +32,10 @@ impl<'a> From<&'a device::uart::RegisterBlock> for Usart<'a> {
                 w.define_the_rxr_fifointtrigger_level().bits(0b10) // Example trigger level
             });
         }
-        //*/
 
         // Self { usart }.set_rate(Rate::MBaud1_5).set_8n1().interrupt_enable()
-        Self { usart }.interrupt_enable()
+        Self { usart }.set_rate(Rate::MBaud1_5).set_8n1().interrupt_enable()
+        // Self { usart }.interrupt_enable()
     }
 }
 
@@ -93,28 +92,28 @@ pub enum Rate {
 
 impl<'a> Usart<'a> {
     pub fn set_rate(self, rate: Rate) -> Self {
-        // These baud rates assume that the flexcomm0 / uart clock is set to
-        // 12Mhz.
+        // These baud rates assume that the uart clock is set to 24Mhz.
         
         // Enable DLAB to access divisor latch registers
-        self.usart.uartlcr().write(|w| w.dlab().set_bit());
+        self.usart.uartlcr().modify(|_, w| w.dlab().set_bit());
         
+        // Divisor = 24M / (13 * 16 * Baud Rate)
         match rate {
             Rate::Baud9600 => {
-                self.usart.uartdlh().write(|w| unsafe { w.bits(124) });
-                self.usart.uartdll().write(|w| unsafe { w.bits(9) });
+                self.usart.uartdlh().write(|w| unsafe { w.bits(0) });
+                self.usart.uartdll().write(|w| unsafe { w.bits(12) });
             }
             Rate::Baud19200 => {
-                self.usart.uartdlh().write(|w| unsafe { w.bits(124) });
-                self.usart.uartdll().write(|w| unsafe { w.bits(4) });
+                self.usart.uartdlh().write(|w| unsafe { w.bits(0) });
+                self.usart.uartdll().write(|w| unsafe { w.bits(6) });
             }
             Rate::MBaud1_5 => {
                 self.usart.uartdlh().write(|w| unsafe { w.bits(0) });
-                self.usart.uartdll().write(|w| unsafe { w.bits(7) });
+                self.usart.uartdll().write(|w| unsafe { w.bits(1) });
             }
         }
         // Disable DLAB to access other registers
-        self.usart.uartlcr().write(|w| w.dlab().clear_bit());
+        self.usart.uartlcr().modify(|_, w| w.dlab().clear_bit());
 
         self
     }
@@ -126,7 +125,6 @@ impl<'a> Usart<'a> {
             // w.etbei().set_bit(); // Enable Transmitter Holding Register Empty Interrupt
             // w.elsi().set_bit(); // Enable Receiver Line Status Interrupt
             // w.edssi().set_bit() // Enable Modem Status Interrupt
-
             w
         });
 
@@ -134,9 +132,6 @@ impl<'a> Usart<'a> {
     }
 
     pub fn set_8n1(self) -> Self {
-
-        // self.usart.uartlcr().write( |w| {
-        // });
         self
     }
 
