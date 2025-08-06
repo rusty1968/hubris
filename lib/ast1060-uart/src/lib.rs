@@ -179,6 +179,7 @@ impl<'a> Usart<'a> {
     }
 
     pub fn clear_tx_idle_interrupt(&self) {
-        self.usart.uartier().write(|w| w.etbei().clear_bit());
+        // self.usart.uartier().write(|w| w.etbei().clear_bit());
+        self.usart.uartier().modify(|_, w| w.etbei().clear_bit());
     }
 }
