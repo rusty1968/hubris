@@ -18,17 +18,35 @@
 
 use core::ops::Deref;
 use ast1060_pac as device;
-use lib_ast1060_uart::{Usart, Write, Read};
+use lib_ast1060_uart::{Usart, Write, Read, InterruptDecoding};
 use userlib::*;
 use zerocopy::IntoBytes;
 
 // task_slot!(SYSCON, syscon_driver);
 
+#[repr(u16)]
+pub enum OpCode {
+    Write = 1,
+    Read = 2,
+}
+
+impl TryFrom<u32> for OpCode {
+    type Error = ();
+
+    fn try_from(value: u32) -> Result<Self, Self::Error> {
+        match value {
+            1 => Ok(OpCode::Write),
+            2 => Ok(OpCode::Read),
+            _ => Err(()),
+        }
+    }
+}
+
 const OP_WRITE: u32 = 1;
 const OP_READ: u32 = 2;
 
 #[repr(u32)]
-enum ResponseCode {
+pub enum ResponseCode {
     Success = 0,
     BadOp = 1,
     BadArg = 2,
@@ -57,7 +75,7 @@ fn main() -> ! {
     // Field messages.
     let mut tx: Option<Transmit> = None;
     let mut reg;
-    let mut rx_buf = [0u8; 32];
+    let mut rx_buf = [0u8; 128];
     let mut rx_idx = 0;
 
     loop {
@@ -70,11 +88,11 @@ fn main() -> ! {
                 let interrupt = usart.read_interrupt_status();
 
                 match interrupt {
-                    0x00 => {
+                    InterruptDecoding::ModemStatusChange => {
                         // Modem status change
                         reg = usart.read_modem_status();
                     }
-                    0x01 => {
+                    InterruptDecoding::TxEmpty => {
                         // UART THR Empty
                         if let Some(txs) = tx.as_mut() {
                             // TX register empty. Time to send something.
@@ -87,7 +105,7 @@ fn main() -> ! {
                         }
 
                     }
-                    0x02 => {
+                    InterruptDecoding::RxDataAvailable => {
                         // Receive data available
                         reg = usart.read() 
                             .unwrap_or_else(|_| {
@@ -97,11 +115,11 @@ fn main() -> ! {
                         rx_buf[rx_idx % 32] = reg;
                         rx_idx += 1;
                     }
-                    0x03 => {
+                    InterruptDecoding::LineStatusChange => {
                         // Receive line status change
                         reg = usart.read_line_status();
                     }
-                    0x06 => {
+                    InterruptDecoding::CharacterTimeout => {
                         // Character timeout
                         reg = usart.read()
                             .unwrap_or_else(|_| {
@@ -120,8 +138,8 @@ fn main() -> ! {
                 sys_irq_control(notifications::UART_IRQ_MASK, true);
             }
         } else {
-            match msginfo.operation {
-                OP_WRITE => {
+            match OpCode::try_from(msginfo.operation) {
+                Ok(OpCode::Write) => {
                     // Deny incoming writes if we're already running one.
                     if tx.is_some() {
                         sys_reply(
@@ -177,7 +195,7 @@ fn main() -> ! {
 
                     // We'll do the rest as interrupts arrive.
                 }
-                OP_READ => {
+                Ok(OpCode::Read) => {
                     // Deny incoming reads.
                     if rx_idx == 0 {
                         sys_reply(

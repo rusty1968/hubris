@@ -16,6 +16,30 @@ pub enum Error {
     BufFull,
 }
 
+pub enum InterruptDecoding {
+    ModemStatusChange = 0,
+    TxEmpty = 1,
+    RxDataAvailable = 2,
+    LineStatusChange = 3,
+    CharacterTimeout = 6,
+    Unknown = -1,
+}
+
+impl TryFrom<u8> for InterruptDecoding {
+    type Error = ();
+
+    fn try_from(value: u8) -> Result<Self, Self::Error> {
+        match value & 0x07 {
+            0 => Ok(InterruptDecoding::ModemStatusChange),
+            1 => Ok(InterruptDecoding::TxEmpty),
+            2 => Ok(InterruptDecoding::RxDataAvailable),
+            3 => Ok(InterruptDecoding::LineStatusChange),
+            6 => Ok(InterruptDecoding::CharacterTimeout),
+            _ => Err(()),
+        }
+    }
+}
+
 pub struct Usart<'a> {
     usart: &'a device::uart::RegisterBlock,
 }
@@ -156,8 +180,8 @@ impl<'a> Usart<'a> {
         false
     }
 
-    pub fn read_interrupt_status(&self) -> u8 {
-        self.usart.uartiir().read().intdecoding_table().bits() & 0x07
+    pub fn read_interrupt_status(&self) -> InterruptDecoding {
+        InterruptDecoding::try_from(self.usart.uartiir().read().intdecoding_table().bits() & 0x07).unwrap_or(InterruptDecoding::Unknown)
     }
 
     pub fn read_line_status(&self) -> u8 {
