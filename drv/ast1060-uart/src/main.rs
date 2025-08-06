@@ -25,6 +25,7 @@ use zerocopy::IntoBytes;
 // task_slot!(SYSCON, syscon_driver);
 
 const OP_WRITE: u32 = 1;
+const OP_READ: u32 = 2;
 
 #[repr(u32)]
 enum ResponseCode {
@@ -56,6 +57,8 @@ fn main() -> ! {
     // Field messages.
     let mut tx: Option<Transmit> = None;
     let mut reg;
+    let mut rx_buf = [0u8; 32];
+    let mut rx_idx = 0;
 
     loop {
         let msginfo = sys_recv_open(&mut [], notifications::UART_IRQ_MASK);
@@ -82,6 +85,7 @@ fn main() -> ! {
                             }
 
                         }
+
                     }
                     0x02 => {
                         // Receive data available
@@ -90,7 +94,8 @@ fn main() -> ! {
                                 // If we get an error, we just return 0.
                                 0
                             });
-                        // usart.write(reg);
+                        rx_buf[rx_idx % 32] = reg;
+                        rx_idx += 1;
                     }
                     0x03 => {
                         // Receive line status change
@@ -104,6 +109,8 @@ fn main() -> ! {
                                 0
                             });
                         // usart.write(reg);
+                        rx_buf[rx_idx % 32] = reg;
+                        rx_idx += 1;
                     }
                     _ => {
 
@@ -169,6 +176,24 @@ fn main() -> ! {
                     usart.set_tx_idle_interrupt();
 
                     // We'll do the rest as interrupts arrive.
+                }
+                OP_READ => {
+                    // Deny incoming reads.
+                    if rx_idx == 0 {
+                        sys_reply(
+                            msginfo.sender,
+                            ResponseCode::BadArg as u32,
+                            &[],
+                        );
+                        continue;
+                    } else {
+                        sys_reply(
+                            msginfo.sender,
+                            ResponseCode::Success as u32,
+                            &rx_buf,
+                        );
+                        rx_idx = 0;
+                    }
                 }
                 _ => sys_reply(msginfo.sender, ResponseCode::BadOp as u32, &[]),
             }

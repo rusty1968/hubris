@@ -1,6 +1,6 @@
 [[flash]]
 address = 0x00000000
-size = 32768
+size = 65536
 read = true
 write = true
 execute = true
