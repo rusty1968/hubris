@@ -15,14 +15,15 @@ task_slot!(UART, uart_driver);
 
 #[export_name = "main"]
 fn main() -> ! {
-    // uart_send(b"Hello, world!\r\n");
+    uart_send(b"Hello, world!\r\n");
     loop {
         let mut buf = [0u8; 32];
         // NOTE: you need to put code here before running this! Otherwise LLVM
         // will turn this into a single undefined instruction.
         hl::sleep_for(1);
-        uart_read(&mut buf);
-        uart_send(&buf);
+        if uart_read(&mut buf) {
+            uart_send(&buf);
+        }
     }
     uart_send(b"Goodbye!\r\n");
 }
@@ -36,11 +37,12 @@ fn uart_send(text: &[u8]) {
     assert_eq!(0, code);
 }
 
-fn uart_read(text: &mut [u8]) {
+fn uart_read(text: &mut [u8]) -> bool {
     let peer = UART.get_task_id();
     const OP_READ: u16 = 2;
 
     let (code, _) =
         sys_send(peer, OP_READ, &[], text, &mut []);
-    assert_eq!(0, code);
+
+    code == 0
 }
