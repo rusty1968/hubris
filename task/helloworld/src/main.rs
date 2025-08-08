@@ -22,7 +22,9 @@ fn main() -> ! {
         // will turn this into a single undefined instruction.
         hl::sleep_for(1);
         if uart_read(&mut buf) {
+            uart_send(b"Received: ");
             uart_send(&buf);
+            uart_send(b"\r\n");
         }
     }
     uart_send(b"Goodbye!\r\n");
