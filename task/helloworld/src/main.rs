@@ -41,8 +41,12 @@ fn uart_read(text: &mut [u8]) -> bool {
     let peer = UART.get_task_id();
     const OP_READ: u16 = 2;
 
+    /*
     let (code, _) =
         sys_send(peer, OP_READ, &[], text, &mut []);
+    */
+    let mut response = [0u8; 4];
+    let (code, _) = sys_send(peer, OP_READ, &[], &mut response, &mut [Lease::from(text)]);
 
     code == 0
 }
