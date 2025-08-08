@@ -206,12 +206,14 @@ fn main() -> ! {
                         continue;
                     } else if msginfo.lease_count == 1 {
                         let response = [0u8; 4];
+                        sys_irq_control(notifications::UART_IRQ_MASK, false);
                         sys_borrow_write(
                             msginfo.sender,
                             0,
                             0,
                             rx_buf[..rx_idx.min(32)].into_byte_slice(),
                         );
+                        sys_irq_control(notifications::UART_IRQ_MASK, true);
                         sys_reply(
                             msginfo.sender,
                             ResponseCode::Success as u32,

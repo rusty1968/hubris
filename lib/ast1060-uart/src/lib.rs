@@ -206,4 +206,12 @@ impl<'a> Usart<'a> {
         // self.usart.uartier().write(|w| w.etbei().clear_bit());
         self.usart.uartier().modify(|_, w| w.etbei().clear_bit());
     }
+
+    pub fn set_rx_data_available_interrupt(&self) {
+        self.usart.uartier().modify(|_, w| w.erbfi().set_bit());
+    }
+
+    pub fn clear_rx_data_available_interrupt(&self) {
+        self.usart.uartier().modify(|_, w| w.erbfi().clear_bit());
+    }
 }
