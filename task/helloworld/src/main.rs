@@ -17,7 +17,7 @@ task_slot!(UART, uart_driver);
 fn main() -> ! {
     uart_send(b"Hello, world!\r\n");
     loop {
-        let mut buf = [0u8; 32];
+        let mut buf = [0u8; 128];
         // NOTE: you need to put code here before running this! Otherwise LLVM
         // will turn this into a single undefined instruction.
         hl::sleep_for(1);
