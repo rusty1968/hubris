@@ -20,7 +20,7 @@ use core::ops::Deref;
 use ast1060_pac as device;
 use lib_ast1060_uart::{Usart, Write, Read, InterruptDecoding};
 use userlib::*;
-use zerocopy::IntoBytes;
+use zerocopy::{IntoBytes, IntoByteSliceMut, IntoByteSlice};
 
 // task_slot!(SYSCON, syscon_driver);
 
@@ -204,11 +204,18 @@ fn main() -> ! {
                             &[],
                         );
                         continue;
-                    } else {
+                    } else if msginfo.lease_count == 1 {
+                        let response = [0u8; 4];
+                        sys_borrow_write(
+                            msginfo.sender,
+                            0,
+                            0,
+                            rx_buf[..rx_idx.min(32)].into_byte_slice(),
+                        );
                         sys_reply(
                             msginfo.sender,
                             ResponseCode::Success as u32,
-                            &rx_buf,
+                            &response,
                         );
                         rx_idx = 0;
                     }
