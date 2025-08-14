@@ -790,13 +790,13 @@ fn write_gdb_script(cfg: &PackageConfig, image_name: &str) -> Result<()> {
     writeln!(
         gdb_script,
         "add-symbol-file {}",
-        cfg.dist_file("kernel").to_slash().unwrap()
+        cfg.img_file("kernel", image_name).to_slash().unwrap()
     )?;
     for name in cfg.toml.tasks.keys() {
         writeln!(
             gdb_script,
             "add-symbol-file {}",
-            cfg.dist_file(name).to_slash().unwrap()
+            cfg.img_file(name, image_name).to_slash().unwrap()
         )?;
     }
     for (path, remap) in &cfg.remap_paths {
