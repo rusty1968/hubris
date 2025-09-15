@@ -1,0 +1,15 @@
+[package]
+name = "drv-i2c-mux-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bitfield = { workspace = true }
+drv-i2c-api = { path = "../i2c-api" }
+drv-i2c-types = { path = "../i2c-types" }
+
+[features]
+default = []
+
+[lints]
+workspace = true

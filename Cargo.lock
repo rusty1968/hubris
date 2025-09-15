@@ -1378,6 +1378,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "drv-i2c-mux-core"
+version = "0.1.0"
+dependencies = [
+ "bitfield 0.13.2",
+ "drv-i2c-api",
+ "drv-i2c-types",
+]
+
+[[package]]
 name = "drv-i2c-types"
 version = "0.1.0"
 dependencies = [
@@ -2558,6 +2567,8 @@ dependencies = [
  "cfg-if",
  "counters",
  "drv-i2c-api",
+ "drv-i2c-mux-core",
+ "drv-i2c-types",
  "drv-stm32xx-sys-api",
  "num-traits",
  "ringbuf",

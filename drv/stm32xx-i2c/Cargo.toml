@@ -13,6 +13,8 @@ zerocopy = { workspace = true }
 zerocopy-derive = { workspace = true }
 
 drv-i2c-api = { path = "../i2c-api" }
+drv-i2c-mux-core = { path = "../i2c-mux-core" }
+drv-i2c-types = { path = "../i2c-types" }
 drv-stm32xx-sys-api = { path = "../stm32xx-sys-api" }
 ringbuf = { path = "../../lib/ringbuf" }
 counters = { path = "../../lib/counters" }

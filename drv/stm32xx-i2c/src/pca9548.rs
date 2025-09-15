@@ -2,26 +2,12 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-//! Driver for the PCA9548 I2C mux
+//! Driver for the PCA9548 I2C mux - STM32 platform integration
 
 use crate::*;
-use bitfield::bitfield;
 use drv_i2c_api::{ResponseCode, Segment};
 
 pub struct Pca9548;
-
-bitfield! {
-    #[derive(Copy, Clone, Eq, PartialEq)]
-    pub struct ControlRegister(u8);
-    channel7_enabled, set_channel7_enabled: 7;
-    channel6_enabled, set_channel6_enabled: 6;
-    channel5_enabled, set_channel5_enabled: 5;
-    channel4_enabled, set_channel4_enabled: 4;
-    channel3_enabled, set_channel3_enabled: 3;
-    channel2_enabled, set_channel2_enabled: 2;
-    channel1_enabled, set_channel1_enabled: 1;
-    channel0_enabled, set_channel0_enabled: 0;
-}
 
 impl I2cMuxDriver for Pca9548 {
     fn configure(
@@ -30,7 +16,20 @@ impl I2cMuxDriver for Pca9548 {
         _controller: &I2cController<'_>,
         gpio: &sys_api::Sys,
     ) -> Result<(), drv_i2c_api::ResponseCode> {
-        mux.configure(gpio)
+        if let Some(pin) = &mux.nreset {
+            // Set the pins to high _before_ switching to output to avoid
+            // glitching.
+            gpio.gpio_set(pin.gpio_pins);
+            // Now, expose them as outputs.
+            gpio.gpio_configure_output(
+                pin.gpio_pins,
+                sys_api::OutputType::PushPull,
+                sys_api::Speed::Low,
+                sys_api::Pull::None,
+            );
+        }
+
+        Ok(())
     }
 
     fn enable_segment(
@@ -39,6 +38,21 @@ impl I2cMuxDriver for Pca9548 {
         controller: &I2cController<'_>,
         segment: Option<Segment>,
     ) -> Result<(), ResponseCode> {
+        use bitfield::bitfield;
+
+        bitfield! {
+            #[derive(Copy, Clone, Eq, PartialEq)]
+            struct ControlRegister(u8);
+            channel7_enabled, set_channel7_enabled: 7;
+            channel6_enabled, set_channel6_enabled: 6;
+            channel5_enabled, set_channel5_enabled: 5;
+            channel4_enabled, set_channel4_enabled: 4;
+            channel3_enabled, set_channel3_enabled: 3;
+            channel2_enabled, set_channel2_enabled: 2;
+            channel1_enabled, set_channel1_enabled: 1;
+            channel0_enabled, set_channel0_enabled: 0;
+        }
+
         let mut reg = ControlRegister(0);
 
         if let Some(segment) = segment {
@@ -85,7 +99,7 @@ impl I2cMuxDriver for Pca9548 {
             |_, _| Some(()),
         ) {
             Err(code) => Err(mux.error_code(code)),
-            _ => Ok(()),
+            Ok(()) => Ok(()),
         }
     }
 
@@ -94,6 +108,11 @@ impl I2cMuxDriver for Pca9548 {
         mux: &I2cMux<'_>,
         gpio: &sys_api::Sys,
     ) -> Result<(), drv_i2c_api::ResponseCode> {
-        mux.reset(gpio)
+        if let Some(pin) = &mux.nreset {
+            gpio.gpio_reset(pin.gpio_pins);
+            gpio.gpio_set(pin.gpio_pins);
+        }
+
+        Ok(())
     }
 }
