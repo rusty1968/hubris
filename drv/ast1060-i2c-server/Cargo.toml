@@ -1,0 +1,33 @@
+[package]
+name = "drv-ast1060-i2c-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cfg-if = { workspace = true }
+cortex-m = { workspace = true }
+num-traits = { workspace = true }
+
+drv-ast1060-i2c = { path = "../ast1060-i2c" }
+drv-i2c-api = { path = "../i2c-api" }
+drv-i2c-types = { path = "../i2c-types" }
+fixedmap = { path = "../../lib/fixedmap" }
+ringbuf = { path = "../../lib/ringbuf" }
+userlib = { path = "../../sys/userlib" }
+
+[features]
+default = []
+
+# This section is here to discourage RLS/rust-analyzer from doing test builds,
+# since test builds don't work for cross compilation.
+[[bin]]
+name = "drv-ast1060-i2c-server"
+test = false
+doctest = false
+bench = false
+
+[build-dependencies]
+build-util = { path = "../../build/util" }
+
+[lints]
+workspace = true

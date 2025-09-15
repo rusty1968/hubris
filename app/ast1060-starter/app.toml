@@ -16,6 +16,15 @@ start = true
 stacksize = 1536
 notifications = ["fault", "timer"]
 
+[tasks.i2c]
+name = "drv-ast1060-i2c-server"
+priority = 3
+max-sizes = {flash = 16384, ram = 4096}
+stacksize = 2048
+start = true
+notifications = ["i2c0-irq", "i2c1-irq", "i2c2-irq", "i2c3-irq", "i2c4-irq", "i2c5-irq", "i2c6-irq", "i2c7-irq", "i2c8-irq", "i2c9-irq", "i2c10-irq", "i2c11-irq", "i2c12-irq", "i2c13-irq"]
+interrupts = {"i2c0.irq" = "i2c0-irq", "i2c1.irq" = "i2c1-irq", "i2c2.irq" = "i2c2-irq", "i2c3.irq" = "i2c3-irq", "i2c4.irq" = "i2c4-irq", "i2c5.irq" = "i2c5-irq", "i2c6.irq" = "i2c6-irq", "i2c7.irq" = "i2c7-irq", "i2c8.irq" = "i2c8-irq", "i2c9.irq" = "i2c9-irq", "i2c10.irq" = "i2c10-irq", "i2c11.irq" = "i2c11-irq", "i2c12.irq" = "i2c12-irq", "i2c13.irq" = "i2c13-irq"}
+
 [tasks.idle]
 name = "task-idle"
 priority = 5
