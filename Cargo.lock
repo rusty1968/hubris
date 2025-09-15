@@ -6340,6 +6340,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "tests-ast1060-starter"
+version = "0.1.0"
+dependencies = [
+ "build-util",
+ "cfg-if",
+ "drv-ast1060-i2c",
+ "drv-i2c-api",
+ "drv-i2c-types",
+ "ringbuf",
+ "task-config",
+ "test-api",
+ "userlib",
+ "zerocopy 0.8.27",
+]
+
+[[package]]
 name = "tests-gemini-bu"
 version = "0.1.0"
 dependencies = [

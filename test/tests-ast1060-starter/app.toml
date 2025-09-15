@@ -1,0 +1,48 @@
+name = "tests-ast1060-starter"
+target = "thumbv7em-none-eabihf"
+board = "ast1060-rot"
+chip = "../../chips/ast1060"
+stacksize = 2048
+
+[kernel]
+name = "tests-ast1060-starter"
+requires = {flash = 4096, ram = 1024}
+
+[tasks.runner]
+name = "test-runner"
+priority = 0
+max-sizes = {flash = 8192, ram = 4096}
+start = true
+
+[tasks.suite]
+name = "tests-ast1060-starter"
+priority = 4
+max-sizes = {flash = 12288, ram = 4096}
+start = true
+task-slots = ["suite", "runner", "i2c"]
+# Test interrupt handling with an arbitrary AST1060 interrupt
+uses = ["i2c0"]
+notifications = ["test-irq"]
+interrupts = {"i2c0.irq" = "test-irq"}
+
+# This block is used to test the task_config macro
+[tasks.suite.config]
+test_name = '"AST1060 I2C Test Suite"'
+controllers_count = 14
+default_speed = '"Fast"'
+
+[tasks.i2c]
+name = "drv-ast1060-i2c-server"
+priority = 3
+max-sizes = {flash = 8192, ram = 4096}
+stacksize = 1024
+start = true
+notifications = ["i2c0-irq", "i2c1-irq", "i2c2-irq", "i2c3-irq", "i2c4-irq", "i2c5-irq", "i2c6-irq", "i2c7-irq", "i2c8-irq", "i2c9-irq", "i2c10-irq", "i2c11-irq", "i2c12-irq", "i2c13-irq"]
+interrupts = {"i2c0.irq" = "i2c0-irq", "i2c1.irq" = "i2c1-irq", "i2c2.irq" = "i2c2-irq", "i2c3.irq" = "i2c3-irq", "i2c4.irq" = "i2c4-irq", "i2c5.irq" = "i2c5-irq", "i2c6.irq" = "i2c6-irq", "i2c7.irq" = "i2c7-irq", "i2c8.irq" = "i2c8-irq", "i2c9.irq" = "i2c9-irq", "i2c10.irq" = "i2c10-irq", "i2c11.irq" = "i2c11-irq", "i2c12.irq" = "i2c12-irq", "i2c13.irq" = "i2c13-irq"}
+
+[tasks.idle]
+name = "task-idle"
+priority = 6
+max-sizes = {flash = 256, ram = 256}
+stacksize = 256
+start = true

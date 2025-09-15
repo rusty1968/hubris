@@ -1,0 +1,31 @@
+[package]
+name = "tests-ast1060-starter"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cfg-if = { workspace = true }
+test-api = { path = "../test-api" }
+drv-i2c-api = { path = "../../drv/i2c-api" }
+drv-i2c-types = { path = "../../drv/i2c-types" }
+drv-ast1060-i2c = { path = "../../drv/ast1060-i2c" }
+ringbuf = { path = "../../lib/ringbuf" }
+userlib = { path = "../../sys/userlib" }
+zerocopy = { workspace = true }
+task-config = { path = "../../lib/task-config" }
+
+[features]
+default = []
+i2c-devices = []
+
+# This section is here to discourage RLS/rust-analyzer from doing test builds,
+# since test builds don't work for cross compilation.
+[[bin]]
+name = "tests-ast1060-starter"
+path = "src/main.rs"
+
+[build-dependencies]
+build-util = { path = "../../build/util" }
+
+[lints]
+workspace = true
