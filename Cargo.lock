@@ -5749,6 +5749,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "task-i2c-client"
+version = "0.1.0"
+dependencies = [
+ "cortex-m",
+ "drv-i2c-api",
+ "drv-i2c-types",
+ "ringbuf",
+ "userlib",
+ "zerocopy 0.8.27",
+ "zerocopy-derive 0.8.27",
+]
+
+[[package]]
 name = "task-idle"
 version = "0.1.0"
 dependencies = [

@@ -1,0 +1,28 @@
+[package]
+name = "task-i2c-client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cortex-m = { workspace = true }
+zerocopy = { workspace = true }
+zerocopy-derive = { workspace = true }
+
+drv-i2c-api = { path = "../../drv/i2c-api" }
+drv-i2c-types = { path = "../../drv/i2c-types" }
+ringbuf = { path = "../../lib/ringbuf" }
+userlib = { path = "../../sys/userlib" }
+
+[features]
+default = []
+
+# This section is here to discourage RLS/rust-analyzer from doing test builds,
+# since test builds don't work for cross compilation.
+[[bin]]
+name = "task-i2c-client"
+test = false
+doctest = false
+bench = false
+
+[lints]
+workspace = true

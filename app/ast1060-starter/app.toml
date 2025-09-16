@@ -25,9 +25,17 @@ start = true
 notifications = ["i2c0-irq", "i2c1-irq", "i2c2-irq", "i2c3-irq", "i2c4-irq", "i2c5-irq", "i2c6-irq", "i2c7-irq", "i2c8-irq", "i2c9-irq", "i2c10-irq", "i2c11-irq", "i2c12-irq", "i2c13-irq"]
 interrupts = {"i2c0.irq" = "i2c0-irq", "i2c1.irq" = "i2c1-irq", "i2c2.irq" = "i2c2-irq", "i2c3.irq" = "i2c3-irq", "i2c4.irq" = "i2c4-irq", "i2c5.irq" = "i2c5-irq", "i2c6.irq" = "i2c6-irq", "i2c7.irq" = "i2c7-irq", "i2c8.irq" = "i2c8-irq", "i2c9.irq" = "i2c9-irq", "i2c10.irq" = "i2c10-irq", "i2c11.irq" = "i2c11-irq", "i2c12.irq" = "i2c12-irq", "i2c13.irq" = "i2c13-irq"}
 
+[tasks.i2c_client]
+name = "task-i2c-client"
+priority = 4
+max-sizes = {flash = 8192, ram = 2048}
+stacksize = 1024
+start = true
+task-slots = ["i2c"]
+
 [tasks.idle]
 name = "task-idle"
-priority = 5
+priority = 6
 max-sizes = {flash = 128, ram = 256}
 stacksize = 256
 start = true
@@ -44,7 +52,7 @@ interrupts = {"uart.irq" = "uart-irq"}
 
 [tasks.helloworld]
 name = "task-helloworld"
-priority = 3
+priority = 5
 max-sizes = {flash = 8192, ram = 2048}
 uses = ["uart"]
 start = true
