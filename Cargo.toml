@@ -48,8 +48,8 @@ path = "lib/counters"
 anyhow = { version = "1.0.31", default-features = false, features = ["std"] }
 array-init = { version = "2.1.0" }
 arrayvec = { version = "0.7.4", default-features = false }
-aspeed-ddk = { git = "https://github.com/aspeedtech-bmc/aspeed-rust.git" }
-ast1060-pac = { git = "https://github.com/aspeedtech-bmc/ast1060-pac.git" }
+aspeed-ddk = { git = "https://github.com/rusty1968/aspeed-rust.git", rev = "b4916ece690a18b9bac38d9d7cc67b089a6cc282", default-features = false }
+ast1060-pac = { git = "https://github.com/AspeedTech-BMC/ast1060-pac.git" }
 atty = { version = "0.2", default-features = false }
 bitfield = { version = "0.13", default-features = false }
 bitflags = { version = "2.5.0", default-features = false }
@@ -132,6 +132,7 @@ stm32f4 = { version = "0.13.0", default-features = false }
 stm32h7 = { version = "0.14", default-features = false }
 stm32g0 = { version = "0.15.1", default-features = false }
 strsim = { version = "0.10.0", default-features = false }
+subtle = { version = "2.6.1", default-features = false }
 syn = { version = "2", default-features = false, features = ["derive", "parsing", "proc-macro", "extra-traits", "full", "printing"] }
 toml = { version = "0.7", default-features = false, features = ["parse", "display"] }
 toml_edit = { version = "0.19", default-features = false }

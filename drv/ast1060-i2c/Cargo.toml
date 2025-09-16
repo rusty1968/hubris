@@ -4,8 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-aspeed-ddk = { path = "/home/ferro/aspeed-i2c", default-features = false }
-ast1060-pac = { git = "https://github.com/AspeedTech-BMC/ast1060-pac.git", features = ["rt"] }
+aspeed-ddk = { workspace = true, default-features = false }
 bitfield = { workspace = true }
 cortex-m = { workspace = true }
 embedded-hal = { workspace = true }

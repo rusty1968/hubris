@@ -158,6 +158,7 @@ checksum = "96d30a06541fbafbc7f82ed10c06164cfbd2c401138f6addd8404629c4b16711"
 [[package]]
 name = "aspeed-ddk"
 version = "0.1.0"
+source = "git+https://github.com/rusty1968/aspeed-rust.git?rev=b4916ece690a18b9bac38d9d7cc67b089a6cc282#b4916ece690a18b9bac38d9d7cc67b089a6cc282"
 dependencies = [
  "ast1060-pac",
  "cortex-m",
@@ -169,6 +170,7 @@ dependencies = [
  "heapless 0.8.0",
  "hex-literal",
  "nb 1.1.0",
+ "openprot-hal-blocking",
  "panic-halt 1.0.0",
  "paste",
  "proposed-traits",
@@ -178,7 +180,7 @@ dependencies = [
 [[package]]
 name = "ast1060-pac"
 version = "0.1.0"
-source = "git+https://github.com/aspeedtech-bmc/ast1060-pac.git#35ce8190e9b40deff918300b69d23079ca15a3f4"
+source = "git+https://github.com/AspeedTech-BMC/ast1060-pac.git#35ce8190e9b40deff918300b69d23079ca15a3f4"
 dependencies = [
  "cortex-m",
  "cortex-m-rt",
@@ -830,7 +832,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0dc92fb57ca44df6db8059111ab3af99a63d5d0f8375d9972e319a379c6bab76"
 dependencies = [
  "generic-array",
- "rand_core",
+ "rand_core 0.6.4",
  "subtle",
  "zeroize",
 ]
@@ -1047,7 +1049,6 @@ name = "drv-ast1060-i2c"
 version = "0.1.0"
 dependencies = [
  "aspeed-ddk",
- "ast1060-pac",
  "bitfield 0.13.2",
  "build-util",
  "cortex-m",
@@ -1075,6 +1076,40 @@ dependencies = [
  "num-traits",
  "ringbuf",
  "userlib",
+]
+
+[[package]]
+name = "drv-ast1060-uart"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "aspeed-ddk",
+ "ast1060-pac",
+ "build-util",
+ "cortex-m",
+ "embedded-hal 0.2.6",
+ "idol",
+ "lib-ast1060-uart",
+ "nb 1.1.0",
+ "serde",
+ "userlib",
+ "zerocopy 0.8.27",
+ "zerocopy-derive 0.8.27",
+]
+
+[[package]]
+name = "drv-ast1060-uart-bak"
+version = "0.1.0"
+dependencies = [
+ "aspeed-ddk",
+ "ast1060-pac",
+ "build-util",
+ "cortex-m",
+ "embedded-hal 0.2.6",
+ "num-traits",
+ "userlib",
+ "zerocopy 0.8.27",
+ "zerocopy-derive 0.8.27",
 ]
 
 [[package]]
@@ -1619,7 +1654,7 @@ dependencies = [
  "lpc55-pac",
  "num-traits",
  "rand_chacha",
- "rand_core",
+ "rand_core 0.6.4",
  "userlib",
  "zerocopy 0.8.27",
  "zerocopy-derive 0.8.27",
@@ -2095,7 +2130,7 @@ dependencies = [
  "idol-runtime",
  "num",
  "num-traits",
- "rand_core",
+ "rand_core 0.6.4",
  "userlib",
  "zerocopy 0.8.27",
  "zerocopy-derive 0.8.27",
@@ -2894,7 +2929,7 @@ dependencies = [
  "generic-array",
  "group",
  "pkcs8",
- "rand_core",
+ "rand_core 0.6.4",
  "sec1",
  "subtle",
  "zeroize",
@@ -3054,7 +3089,7 @@ version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ded41244b729663b1e574f1b4fb731469f69f79c17667b5d776b16cda0479449"
 dependencies = [
- "rand_core",
+ "rand_core 0.6.4",
  "subtle",
 ]
 
@@ -3247,7 +3282,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f0f9ef7462f7c099f518d754361858f86d8a07af53ba9af0fe635bbccb151a63"
 dependencies = [
  "ff",
- "rand_core",
+ "rand_core 0.6.4",
  "subtle",
 ]
 
@@ -3683,6 +3718,17 @@ name = "leb128"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "884e2677b40cc8c339eaefcb701c32ef1fd2493d71118dc0ca4b6a736c93bd67"
+
+[[package]]
+name = "lib-ast1060-uart"
+version = "0.1.0"
+dependencies = [
+ "aspeed-ddk",
+ "ast1060-pac",
+ "embedded-hal 0.2.6",
+ "nb 1.1.0",
+ "unwrap-lite",
+]
 
 [[package]]
 name = "lib-dice"
@@ -4206,6 +4252,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6f61fba1741ea2b3d6a1e3178721804bb716a68a6aeba1149b5d52e3d464ea66"
 
 [[package]]
+name = "openprot-hal-blocking"
+version = "0.1.0"
+source = "git+https://github.com/rusty1968/openprot.git?rev=01f76b0b5f23d769247ad984e188cbcce0593b4e#01f76b0b5f23d769247ad984e188cbcce0593b4e"
+dependencies = [
+ "embedded-hal 1.0.0",
+ "rand_core 0.9.3",
+ "subtle",
+ "zerocopy 0.8.27",
+ "zeroize",
+]
+
+[[package]]
 name = "ordered-toml"
 version = "0.1.0"
 source = "git+https://github.com/oxidecomputer/ordered-toml#3fdce7ade3610b84e2bbd0130442be76cb0f8210"
@@ -4289,7 +4347,7 @@ dependencies = [
  "ecdsa",
  "elliptic-curve",
  "primeorder",
- "rand_core",
+ "rand_core 0.6.4",
  "sha2",
 ]
 
@@ -4534,7 +4592,7 @@ dependencies = [
  "embedded-hal 1.0.0",
  "embedded-io",
  "embedded-storage",
- "rand_core",
+ "rand_core 0.6.4",
 ]
 
 [[package]]
@@ -4578,7 +4636,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2e7573632e6454cf6b99d7aac4ccca54be06da05aca2ef7423d22d27d4d4bcd8"
 dependencies = [
  "rand_chacha",
- "rand_core",
+ "rand_core 0.6.4",
  "rand_hc",
 ]
 
@@ -4589,7 +4647,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e6c10a63a0fa32252be49d21e7709d4d4baf8d231c2dbce1eaa8141b9b127d88"
 dependencies = [
  "ppv-lite86",
- "rand_core",
+ "rand_core 0.6.4",
 ]
 
 [[package]]
@@ -4602,12 +4660,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "rand_core"
+version = "0.9.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "99d9a13982dcf210057a8a78572b2217b667c3beacbf3a0d8b454f6f82837d38"
+
+[[package]]
 name = "rand_hc"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d51e9f596de227fda2ea6c84607f5558e196eeaf43c986b724ba4fb8fdf497e7"
 dependencies = [
- "rand_core",
+ "rand_core 0.6.4",
 ]
 
 [[package]]
@@ -4700,7 +4764,7 @@ dependencies = [
  "num-traits",
  "pkcs1",
  "pkcs8",
- "rand_core",
+ "rand_core 0.6.4",
  "serde",
  "sha2",
  "signature",
@@ -5045,7 +5109,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8fe458c98333f9c8152221191a77e2a44e8325d0193484af2e9421a53019e57d"
 dependencies = [
  "digest",
- "rand_core",
+ "rand_core 0.6.4",
 ]
 
 [[package]]
@@ -5576,6 +5640,13 @@ dependencies = [
  "stm32h7",
  "task-jefe-api",
  "task-packrat-api",
+ "userlib",
+]
+
+[[package]]
+name = "task-helloworld"
+version = "0.1.0"
+dependencies = [
  "userlib",
 ]
 
@@ -6337,22 +6408,6 @@ dependencies = [
  "userlib",
  "zerocopy 0.8.27",
  "zerocopy-derive 0.8.27",
-]
-
-[[package]]
-name = "tests-ast1060-starter"
-version = "0.1.0"
-dependencies = [
- "build-util",
- "cfg-if",
- "drv-ast1060-i2c",
- "drv-i2c-api",
- "drv-i2c-types",
- "ringbuf",
- "task-config",
- "test-api",
- "userlib",
- "zerocopy 0.8.27",
 ]
 
 [[package]]
