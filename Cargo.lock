@@ -665,7 +665,7 @@ checksum = "cd20d4ac4aa86f4f75f239d59e542ef67de87cce2c282818dc6e84155d3ea126"
 dependencies = [
  "bare-metal 0.2.5",
  "bitfield 0.13.2",
- "embedded-hal",
+ "embedded-hal 0.2.6",
  "volatile-register",
 ]
 
@@ -779,7 +779,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0dc92fb57ca44df6db8059111ab3af99a63d5d0f8375d9972e319a379c6bab76"
 dependencies = [
  "generic-array",
- "rand_core",
+ "rand_core 0.6.4",
  "subtle",
  "zeroize",
 ]
@@ -1381,6 +1381,8 @@ dependencies = [
  "hubpack",
  "num-derive 0.4.2",
  "num-traits",
+ "openprot-hal-blocking",
+ "openprot-platform-mock",
  "serde",
  "serde-big-array 0.4.1",
 ]
@@ -1538,7 +1540,7 @@ dependencies = [
  "lpc55-pac",
  "num-traits",
  "rand_chacha",
- "rand_core",
+ "rand_core 0.6.4",
  "userlib",
  "zerocopy 0.8.26",
  "zerocopy-derive 0.8.26",
@@ -1900,6 +1902,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "drv-mock-i2c"
+version = "0.1.0"
+dependencies = [
+ "bitfield 0.13.2",
+ "build-util",
+ "cortex-m",
+ "counters",
+ "drv-i2c-api",
+ "drv-i2c-types",
+ "embedded-hal 0.2.6",
+ "fixedmap",
+ "heapless",
+ "ringbuf",
+ "userlib",
+ "zerocopy 0.8.26",
+ "zerocopy-derive 0.8.26",
+]
+
+[[package]]
 name = "drv-monorail-api"
 version = "0.1.0"
 dependencies = [
@@ -2015,7 +2036,7 @@ dependencies = [
  "idol-runtime",
  "num",
  "num-traits",
- "rand_core",
+ "rand_core 0.6.4",
  "userlib",
  "zerocopy 0.8.26",
  "zerocopy-derive 0.8.26",
@@ -2814,7 +2835,7 @@ dependencies = [
  "generic-array",
  "group",
  "pkcs8",
- "rand_core",
+ "rand_core 0.6.4",
  "sec1",
  "subtle",
  "zeroize",
@@ -2835,6 +2856,12 @@ dependencies = [
  "nb 0.1.3",
  "void",
 ]
+
+[[package]]
+name = "embedded-hal"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "361a90feb7004eca4019fb28352a9465666b24f840f5c3cddf0ff13920590b89"
 
 [[package]]
 name = "encode_unicode"
@@ -2948,7 +2975,7 @@ version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ded41244b729663b1e574f1b4fb731469f69f79c17667b5d776b16cda0479449"
 dependencies = [
- "rand_core",
+ "rand_core 0.6.4",
  "subtle",
 ]
 
@@ -3134,7 +3161,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f0f9ef7462f7c099f518d754361858f86d8a07af53ba9af0fe635bbccb151a63"
 dependencies = [
  "ff",
- "rand_core",
+ "rand_core 0.6.4",
  "subtle",
 ]
 
@@ -3575,7 +3602,7 @@ dependencies = [
 name = "lib-lpc55-usart"
 version = "0.1.0"
 dependencies = [
- "embedded-hal",
+ "embedded-hal 0.2.6",
  "lpc55-pac",
  "nb 1.0.0",
  "unwrap-lite",
@@ -4109,6 +4136,28 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6f61fba1741ea2b3d6a1e3178721804bb716a68a6aeba1149b5d52e3d464ea66"
 
 [[package]]
+name = "openprot-hal-blocking"
+version = "0.1.0"
+source = "git+https://github.com/rusty1968/openprot.git?branch=i2c-hardware#54105b4e797c77b56cf1e25a62169c9e89f342e9"
+dependencies = [
+ "embedded-hal 1.0.0",
+ "rand_core 0.9.3",
+ "subtle",
+ "zerocopy 0.8.26",
+ "zeroize",
+]
+
+[[package]]
+name = "openprot-platform-mock"
+version = "0.1.0"
+source = "git+https://github.com/rusty1968/openprot.git?branch=i2c-hardware#54105b4e797c77b56cf1e25a62169c9e89f342e9"
+dependencies = [
+ "cortex-m",
+ "embedded-hal 1.0.0",
+ "openprot-hal-blocking",
+]
+
+[[package]]
 name = "ordered-toml"
 version = "0.1.0"
 source = "git+https://github.com/oxidecomputer/ordered-toml#3fdce7ade3610b84e2bbd0130442be76cb0f8210"
@@ -4192,7 +4241,7 @@ dependencies = [
  "ecdsa",
  "elliptic-curve",
  "primeorder",
- "rand_core",
+ "rand_core 0.6.4",
  "sha2",
 ]
 
@@ -4463,7 +4512,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2e7573632e6454cf6b99d7aac4ccca54be06da05aca2ef7423d22d27d4d4bcd8"
 dependencies = [
  "rand_chacha",
- "rand_core",
+ "rand_core 0.6.4",
  "rand_hc",
 ]
 
@@ -4474,7 +4523,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e6c10a63a0fa32252be49d21e7709d4d4baf8d231c2dbce1eaa8141b9b127d88"
 dependencies = [
  "ppv-lite86",
- "rand_core",
+ "rand_core 0.6.4",
 ]
 
 [[package]]
@@ -4487,12 +4536,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "rand_core"
+version = "0.9.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "99d9a13982dcf210057a8a78572b2217b667c3beacbf3a0d8b454f6f82837d38"
+
+[[package]]
 name = "rand_hc"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d51e9f596de227fda2ea6c84607f5558e196eeaf43c986b724ba4fb8fdf497e7"
 dependencies = [
- "rand_core",
+ "rand_core 0.6.4",
 ]
 
 [[package]]
@@ -4585,7 +4640,7 @@ dependencies = [
  "num-traits",
  "pkcs1",
  "pkcs8",
- "rand_core",
+ "rand_core 0.6.4",
  "serde",
  "sha2",
  "signature",
@@ -4930,7 +4985,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8fe458c98333f9c8152221191a77e2a44e8325d0193484af2e9421a53019e57d"
 dependencies = [
  "digest",
- "rand_core",
+ "rand_core 0.6.4",
 ]
 
 [[package]]
