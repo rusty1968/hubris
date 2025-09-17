@@ -168,6 +168,8 @@ vsc7448-pac = { git = "https://github.com/oxidecomputer/vsc7448", default-featur
 
 # OpenPRot
 openprot-platform-mock = { git = "https://github.com/rusty1968/openprot.git", branch = "i2c-hardware" }
+openprot-hal-blocking = { git = "https://github.com/rusty1968/openprot.git", branch = "i2c-hardware" }
+openprot-hal-nb = { git = "https://github.com/rusty1968/openprot.git", branch = "i2c-hardware" }
 
 [patch.crates-io]
 # See https://gitlab.com/robigalia/ssmarshal/-/merge_requests/2
