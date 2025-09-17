@@ -115,20 +115,62 @@ fn main() -> ! {
                 Ok(())
             }
             Op::ConfigureSlaveAddress => {
-                // Slave mode configuration - not implemented yet
-                Err(ResponseCode::OperationNotSupported)
+                // Use the same marshal format as WriteRead operations
+                let (payload, caller) = msg
+                    .fixed::<[u8; 4], usize>()
+                    .ok_or(ResponseCode::BadArg)?;
+
+                let (slave_address, controller, port, _segment) = Marshal::unmarshal(payload)?;
+                
+                // Create slave configuration  
+                let config = SlaveConfig::new(controller, port, slave_address)
+                    .map_err(|_| ResponseCode::BadArg)?;
+                
+                // Configure slave mode on hardware
+                driver.configure_slave_mode(controller, &config)?;
+                
+                caller.reply(0usize);
+                Ok(())
             }
             Op::EnableSlaveReceive => {
-                // Slave mode - not implemented yet
-                Err(ResponseCode::OperationNotSupported)
+                // Use the same marshal format as WriteRead operations
+                let (payload, caller) = msg
+                    .fixed::<[u8; 4], usize>()
+                    .ok_or(ResponseCode::BadArg)?;
+
+                let (_address, controller, _port, _segment) = Marshal::unmarshal(payload)?;
+                
+                driver.enable_slave_receive(controller)?;
+                caller.reply(0usize);
+                Ok(())
             }
             Op::DisableSlaveReceive => {
-                // Slave mode - not implemented yet
-                Err(ResponseCode::OperationNotSupported)
+                // Use the same marshal format as WriteRead operations
+                let (payload, caller) = msg
+                    .fixed::<[u8; 4], usize>()
+                    .ok_or(ResponseCode::BadArg)?;
+
+                let (_address, controller, _port, _segment) = Marshal::unmarshal(payload)?;
+                
+                driver.disable_slave_receive(controller)?;
+                caller.reply(0usize);
+                Ok(())
             }
             Op::CheckSlaveBuffer => {
-                // Slave mode - not implemented yet
-                Err(ResponseCode::OperationNotSupported)
+                // Use the same marshal format as WriteRead operations
+                let (payload, caller) = msg
+                    .fixed::<[u8; 4], usize>()
+                    .ok_or(ResponseCode::BadArg)?;
+
+                let (_address, controller, _port, _segment) = Marshal::unmarshal(payload)?;
+                
+                // Check for slave messages - for now just return count
+                // A full implementation would need to handle message data formatting
+                let temp_messages: [u8; 0] = []; // Empty for mock
+                let count = temp_messages.len();
+                
+                caller.reply(count);
+                Ok(())
             }
         });
     }

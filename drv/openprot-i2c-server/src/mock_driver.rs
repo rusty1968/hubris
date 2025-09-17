@@ -15,6 +15,12 @@ pub struct MockI2cDriver {
     transaction_counter: u32,
     /// Single test device response (minimal storage)
     test_response: Option<heapless::Vec<u8, 16>>,
+    /// Slave mode configuration
+    slave_config: Option<SlaveConfig>,
+    /// Whether slave receive is enabled
+    slave_receive_enabled: bool,
+    /// Mock slave message buffer (minimal size for testing)
+    slave_messages: heapless::Vec<SlaveMessage, 4>,
 }
 
 impl MockI2cDriver {
@@ -23,6 +29,9 @@ impl MockI2cDriver {
         Self {
             transaction_counter: 0,
             test_response: None,
+            slave_config: None,
+            slave_receive_enabled: false,
+            slave_messages: heapless::Vec::new(),
         }
     }
 
@@ -73,6 +82,9 @@ impl MockI2cDriver {
     pub fn reset(&mut self) {
         self.test_response = None;
         self.transaction_counter = 0;
+        self.slave_config = None;
+        self.slave_receive_enabled = false;
+        self.slave_messages.clear();
     }
     
     /// Get the number of transactions processed
@@ -150,35 +162,44 @@ impl I2cHardware for MockI2cDriver {
         Ok(())
     }
 
-    fn configure_slave_mode(&mut self, _controller: Controller, _config: &SlaveConfig) -> Result<(), Self::Error> {
-        // Mock always succeeds - slave mode not fully implemented in basic mock
+    fn configure_slave_mode(&mut self, _controller: Controller, config: &SlaveConfig) -> Result<(), Self::Error> {
+        // Store the slave configuration
+        self.slave_config = Some(*config);
         Ok(())
     }
 
     fn enable_slave_receive(&mut self, _controller: Controller) -> Result<(), Self::Error> {
-        // Mock always succeeds
+        // Enable slave receive mode
+        self.slave_receive_enabled = true;
         Ok(())
     }
 
     fn disable_slave_receive(&mut self, _controller: Controller) -> Result<(), Self::Error> {
-        // Mock always succeeds
+        // Disable slave receive mode
+        self.slave_receive_enabled = false;
         Ok(())
     }
 
-    fn poll_slave_messages(&mut self, _controller: Controller, _messages: &mut [SlaveMessage]) -> Result<usize, Self::Error> {
-        // Basic mock doesn't simulate slave messages
-        Ok(0)
+    fn poll_slave_messages(&mut self, _controller: Controller, messages: &mut [SlaveMessage]) -> Result<usize, Self::Error> {
+        // Mock implementation - copy any buffered messages
+        let count = core::cmp::min(self.slave_messages.len(), messages.len());
+        for i in 0..count {
+            messages[i] = self.slave_messages[i];
+        }
+        // Clear the messages after reading (typical hardware behavior)
+        self.slave_messages.clear();
+        Ok(count)
     }
 
     fn get_slave_status(&self, _controller: Controller) -> Result<SlaveStatus, Self::Error> {
-        // Return default status for basic mock
+        // Return current mock slave status
         Ok(SlaveStatus {
-            enabled: false,
-            messages_received: 0,
+            enabled: self.slave_receive_enabled,
+            messages_received: self.slave_messages.len() as u32,
             messages_dropped: 0,
             address_matches: 0,
             bus_errors: 0,
-            buffer_full: false,
+            buffer_full: self.slave_messages.is_full(),
         })
     }
 }
