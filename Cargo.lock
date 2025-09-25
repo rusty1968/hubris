@@ -198,6 +198,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "ast1060-spdm-responder"
+version = "0.1.0"
+dependencies = [
+ "ast1060-pac",
+ "cortex-m",
+ "cortex-m-rt",
+ "drv-spdm-responder-api",
+ "kern",
+]
+
+[[package]]
 name = "ast1060-starter"
 version = "0.1.0"
 dependencies = [
@@ -2055,6 +2066,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "drv-openprot-syscon-api"
+version = "0.1.0"
+dependencies = [
+ "build-util",
+ "derive-idol-err",
+ "hubpack",
+ "idol",
+ "serde",
+ "userlib",
+]
+
+[[package]]
+name = "drv-openprot-syscon-server"
+version = "0.1.0"
+dependencies = [
+ "cortex-m",
+ "drv-openprot-syscon-api",
+ "idol-runtime",
+ "ringbuf",
+ "userlib",
+]
+
+[[package]]
 name = "drv-oxide-vpd"
 version = "0.1.0"
 dependencies = [
@@ -2342,6 +2376,43 @@ dependencies = [
  "drv-spi-api",
  "drv-stm32xx-sys-api",
  "userlib",
+]
+
+[[package]]
+name = "drv-spdm-responder-api"
+version = "0.1.0"
+dependencies = [
+ "build-util",
+ "counters",
+ "derive-idol-err",
+ "heapless 0.7.17",
+ "hubpack",
+ "idol",
+ "idol-runtime",
+ "num-traits",
+ "serde",
+ "userlib",
+ "zerocopy 0.8.27",
+ "zerocopy-derive 0.8.27",
+]
+
+[[package]]
+name = "drv-spdm-responder-server"
+version = "0.1.0"
+dependencies = [
+ "cortex-m",
+ "counters",
+ "drv-spdm-responder-api",
+ "heapless 0.7.17",
+ "hubpack",
+ "idol",
+ "idol-runtime",
+ "num-traits",
+ "ringbuf",
+ "serde",
+ "userlib",
+ "zerocopy 0.8.27",
+ "zerocopy-derive 0.8.27",
 ]
 
 [[package]]
@@ -5761,6 +5832,7 @@ dependencies = [
 name = "task-helloworld"
 version = "0.1.0"
 dependencies = [
+ "drv-spdm-responder-api",
  "userlib",
 ]
 

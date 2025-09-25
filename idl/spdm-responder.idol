@@ -1,0 +1,171 @@
+// SPDM Responder IPC API
+//
+// This interface provides Security Protocol and Data Model (SPDM) responder
+// functionality for device attestation and authentication. The SPDM responder
+// enables remote verification of device identity, firmware integrity, and
+// current security state.
+//
+// The interface follows SPDM specification requirements while adapting to
+// Hubris IPC patterns for process isolation and security boundaries.
+
+Interface(
+    name: "SpdmResponder",
+    ops: {
+        // Version Negotiation
+        "get_version": (
+            doc: "Get supported SPDM protocol versions in priority order",
+            reply: Result(
+                ok: "SpdmVersionResponse",
+                err: CLike("SpdmError"),
+            ),
+            encoding: Hubpack,
+            idempotent: true,  // Version list doesn't change
+        ),
+
+        // Capability Exchange
+        "get_capabilities": (
+            doc: "Get responder capabilities and supported operations",
+            reply: Result(
+                ok: "SpdmCapabilities",
+                err: CLike("SpdmError"),
+            ),
+            encoding: Hubpack,
+            idempotent: true,  // Capabilities are static
+        ),
+
+        // Algorithm Negotiation
+        "negotiate_algorithms": (
+            doc: "Negotiate cryptographic algorithms for the SPDM session",
+            encoding: Hubpack,
+            args: {
+                "algorithms": "AlgorithmRequest",
+            },
+            reply: Result(
+                ok: "AlgorithmResponse",
+                err: CLike("SpdmError"),
+            ),
+            idempotent: false, // Changes session state
+        ),
+
+        // Certificate Operations
+        "get_certificate": (
+            doc: "Get device certificate chain for the specified slot",
+            args: {
+                "slot": "u8",      // Certificate slot (0-7)
+                "offset": "u16",   // Offset for partial reads
+                "length": "u16",   // Requested length
+            },
+            leases: {
+                "certificate": (type: "[u8]", write: true, max_len: Some(4096)),
+            },
+            reply: Result(
+                ok: "u16",  // Actual bytes written
+                err: CLike("SpdmError"),
+            ),
+            idempotent: true,  // Certificate data is static
+        ),
+
+        // Authentication Challenge
+        "challenge_auth": (
+            doc: "Respond to authentication challenge with signed response",
+            encoding: Hubpack,
+            args: {
+                "slot": "u8",           // Certificate slot to use for signing
+                "measurement_summary": "u8", // Which measurements to include
+            },
+            leases: {
+                "nonce": (type: "[u8]", read: true, max_len: Some(64)),
+                "signature": (type: "[u8]", write: true, max_len: Some(512)),
+            },
+            reply: Result(
+                ok: "ChallengeAuthResponse",
+                err: CLike("SpdmError"),
+            ),
+            idempotent: false, // Uses random nonces, changes state
+        ),
+
+        // Measurement Attestation
+        "get_measurements": (
+            doc: "Get device/firmware measurements with optional signature",
+            encoding: Hubpack,
+            args: {
+                "slot": "u8",           // Certificate slot for signing (if requested)
+                "measurement_operation": "u8", // Which measurements to return
+                "nonce": "Option<[u8; 32]>",   // Nonce for signature (if requested)
+            },
+            leases: {
+                "measurements": (type: "[u8]", write: true, max_len: Some(2048)),
+                "signature": (type: "[u8]", write: true, max_len: Some(512)),
+            },
+            reply: Result(
+                ok: "MeasurementResponse",
+                err: CLike("SpdmError"),
+            ),
+            idempotent: true,  // Measurements are deterministic
+        ),
+
+        // Session Management
+        "end_session": (
+            doc: "Terminate the current SPDM session and clear session state",
+            reply: Result(
+                ok: "()",
+                err: CLike("SpdmError"),
+            ),
+            idempotent: true,  // Safe to call multiple times
+        ),
+
+        // Heartbeat (Optional)
+        "heartbeat": (
+            doc: "Respond to heartbeat request to prove liveness",
+            reply: Result(
+                ok: "()",
+                err: CLike("SpdmError"),
+            ),
+            idempotent: true,  // Stateless operation
+        ),
+
+        // Key Exchange (Advanced)
+        "key_exchange": (
+            doc: "Perform SPDM key exchange for session establishment",
+            encoding: Hubpack,
+            args: {
+                "slot": "u8",           // Certificate slot
+                "measurement_summary": "u8",
+                "req_session_id": "u16",
+            },
+            leases: {
+                "req_random": (type: "[u8]", read: true, max_len: Some(64)),
+                "exchange_data": (type: "[u8]", read: true, max_len: Some(512)),
+                "rsp_random": (type: "[u8]", write: true, max_len: Some(64)),
+                "rsp_exchange_data": (type: "[u8]", write: true, max_len: Some(512)),
+                "signature": (type: "[u8]", write: true, max_len: Some(512)),
+            },
+            reply: Result(
+                ok: "KeyExchangeResponse",
+                err: CLike("SpdmError"),
+            ),
+            idempotent: false, // Establishes session keys
+        ),
+
+        // PSK Exchange (Alternative to certificates)
+        "psk_exchange": (
+            doc: "Perform PSK-based key exchange",
+            encoding: Hubpack,
+            args: {
+                "psk_hint": "u16",
+                "measurement_summary": "u8",
+                "req_session_id": "u16",
+            },
+            leases: {
+                "req_random": (type: "[u8]", read: true, max_len: Some(64)),
+                "context": (type: "[u8]", read: true, max_len: Some(64)),
+                "rsp_random": (type: "[u8]", write: true, max_len: Some(64)),
+            },
+            reply: Result(
+                ok: "PskExchangeResponse",
+                err: CLike("SpdmError"),
+            ),
+            idempotent: false, // Establishes session keys
+        ),
+    },
+)

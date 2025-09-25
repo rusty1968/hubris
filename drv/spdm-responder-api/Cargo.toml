@@ -1,0 +1,26 @@
+[package]
+name = "drv-spdm-responder-api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+counters = { path = "../../lib/counters" }
+derive-idol-err = { path = "../../lib/derive-idol-err" }
+heapless = { workspace = true }
+hubpack = { workspace = true }
+idol-runtime = { workspace = true }
+num-traits = { workspace = true }
+serde = { workspace = true }
+userlib = { path = "../../sys/userlib" }
+zerocopy = { workspace = true }
+zerocopy-derive = { workspace = true }
+
+[features]
+default = []
+
+[build-dependencies]
+idol = { workspace = true }
+build-util = { path = "../../build/util" }
+
+[lints]
+workspace = true
