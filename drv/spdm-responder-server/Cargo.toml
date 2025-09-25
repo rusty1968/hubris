@@ -1,0 +1,38 @@
+[package]
+name = "drv-spdm-responder-server"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "drv-spdm-responder-server"
+path = "src/main.rs"
+
+[dependencies]
+cortex-m = { workspace = true }
+counters = { path = "../../lib/counters" }
+drv-spdm-responder-api = { path = "../spdm-responder-api" }
+hubpack = { workspace = true }
+idol-runtime = { workspace = true }
+heapless = { workspace = true }
+num-traits = { workspace = true }
+ringbuf = { path = "../../lib/ringbuf" }
+serde = { workspace = true }
+userlib = { path = "../../sys/userlib" }
+zerocopy = { workspace = true }
+zerocopy-derive = { workspace = true }
+
+# Crypto dependencies (would be actual crypto crates in production)
+# sha2 = { workspace = true }
+# p256 = { workspace = true }
+# rsa = { workspace = true }
+
+[features]
+default = ["mock-crypto"]
+mock-crypto = []  # Use mock crypto for testing
+hardware-crypto = []  # Use hardware crypto acceleration
+
+[build-dependencies]
+idol = { workspace = true }
+
+[lints]
+workspace = true

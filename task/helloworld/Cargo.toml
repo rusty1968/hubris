@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+drv-spdm-responder-api = { path = "../../drv/spdm-responder-api" }
 userlib = { path = "../../sys/userlib", features = ["panic-messages"] }
 
 # This section is here to discourage RLS/rust-analyzer from doing test builds,

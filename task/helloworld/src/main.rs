@@ -11,11 +11,31 @@
 #[allow(unused_imports)]
 use userlib::*;
 
+// Test SPDM API import
+use drv_spdm_responder_api::{SpdmResponder, SpdmError, SpdmVersion};
+
 task_slot!(UART, uart_driver);
+task_slot!(SPDM_RESPONDER, spdm_responder);
 
 #[export_name = "main"]
 fn main() -> ! {
     uart_send(b"Hello, world!\r\n");
+
+    // Test SPDM client IPC
+    let spdm_client = SpdmResponder::from(SPDM_RESPONDER.get_task_id());
+    match spdm_client.get_version() {
+        Ok(version_response) => {
+            uart_send(b"SPDM IPC Success!\r\n");
+            // Simple test to show the data is valid
+            if version_response.version_count > 0 {
+                uart_send(b"Got version data\r\n");
+            }
+        }
+        Err(_) => {
+            uart_send(b"SPDM IPC Failed!\r\n");
+        }
+    }
+
     loop {
         let mut buf = [0u8; 128];
         // NOTE: you need to put code here before running this! Otherwise LLVM
