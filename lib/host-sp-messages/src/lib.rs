@@ -292,8 +292,13 @@ impl From<drv_i2c_types::ResponseCode> for InventoryDataResult {
 /// These **cannot be reordered**; the host and SP must agree on them.  New
 /// variants may be added to the end, and existing variants may be extended with
 /// new data (at the end), but no changes should be made to existing bytes.
+// Note: this type may ask you to let it derive `Copy`. DO NOT ALLOW THIS! An
+// `InventoryData` is *really big* --- over 512 bytes --- and deriving `Copy`
+// would make it easy to accidentally pass one by value on the stack, increasing
+// stack usage when it isn't necessary to do so. We would like to only allow
+// this type to be bytewise-copied explicitly by calling `.clone()`, instead.
 #[derive(
-    Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize, SerializedSize,
+    Debug, Clone, PartialEq, Eq, Deserialize, Serialize, SerializedSize,
 )]
 #[allow(clippy::large_enum_variant)]
 pub enum InventoryData {
@@ -414,7 +419,7 @@ pub enum InventoryData {
         fans: [Identity; 3],
     },
 
-    Adm1272 {
+    Adm127x {
         /// MFR_ID (PMBus operation 0x99)
         mfr_id: [u8; 3],
         /// MFR_MODEL (PMBus operation 0x9A)
@@ -1192,7 +1197,7 @@ mod tests {
             b = &b[106..];
         }
 
-        let d = InventoryData::Adm1272 {
+        let d = InventoryData::Adm127x {
             mfr_id: [1, 2, 3],
             mfr_model: [9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
             mfr_revision: [0, 10],
