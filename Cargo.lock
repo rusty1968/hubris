@@ -5525,10 +5525,12 @@ version = "0.1.0"
 dependencies = [
  "drv-digest-api",
  "drv-rng-api",
+ "ecdsa",
  "embedded-tls",
  "heapless 0.7.17",
  "mctp",
  "mctp-api",
+ "p384",
  "sha2",
  "spdm-lib",
  "userlib",
