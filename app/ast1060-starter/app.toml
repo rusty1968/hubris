@@ -6,7 +6,7 @@ stacksize = 1024
 
 [kernel]
 name = "ast1060-starter"
-requires = {flash = 20000, ram = 3072}
+requires = {flash = 40000, ram = 6144}
 
 [tasks.jefe]
 name = "task-jefe"
@@ -22,3 +22,21 @@ priority = 5
 max-sizes = {flash = 128, ram = 256}
 stacksize = 256
 start = true
+
+# Digest Server Task - provides cryptographic hash and HMAC operations
+[tasks.digest_server]
+name = "digest-server"
+priority = 2
+max-sizes = {flash = 32768, ram = 16384}
+start = true
+stacksize = 8192
+features = ["rustcrypto"]
+
+# HMAC Client Task - demonstrates and tests HMAC functionality
+[tasks.hmac_client]
+name = "task-hmac-client"
+priority = 3
+max-sizes = {flash = 32768, ram = 8192}
+start = true
+stacksize = 4096
+task-slots = ["digest_server"]

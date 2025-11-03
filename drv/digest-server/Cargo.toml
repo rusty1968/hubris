@@ -7,6 +7,7 @@ edition = "2021"
 default = ["mock"]
 mock = ["openprot-platform-mock"]
 aspeed-hace = ["aspeed-ddk", "ast1060-pac", "embedded-hal-1", "proposed-traits"]
+rustcrypto = ["openprot-platform-rustcrypto"]
 
 [dependencies]
 userlib = { path = "../../sys/userlib" }
@@ -25,12 +26,16 @@ ringbuf = { path = "../../lib/ringbuf" }
 counters = { path = "../../lib/counters" }
 openprot-hal-blocking = { workspace = true }
 openprot-platform-mock = { workspace = true, optional = true }
+openprot-platform-traits-hubris = { workspace = true }
 
 # Hardware-specific dependencies
 aspeed-ddk = { workspace = true, optional = true }
 ast1060-pac = { workspace = true, optional = true }
 embedded-hal-1 = { workspace = true, optional = true }
 proposed-traits = { workspace = true, optional = true }
+
+# RustCrypto platform implementation
+openprot-platform-rustcrypto = { workspace = true, optional = true }
 
 [lints]
 workspace = true

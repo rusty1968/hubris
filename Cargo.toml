@@ -141,12 +141,12 @@ vcell = { version = "0.1.2", default-features = false }
 walkdir = { version = "2.0.0", default-features = false }
 zerocopy = { version = "0.8.25", default-features = false }
 zerocopy-derive = { version = "0.8.25", default-features = false }
-zeroize = { version = "1.5.7", default-features = false, features = ["zeroize_derive"] }
+zeroize = { version = "1.8", default-features = false, features = ["zeroize_derive"] }
 zip = { version = "0.6", default-features = false, features = ["bzip2", "deflate", "zstd"] }
 
 # Oxide forks and repos
-attest-data = { git = "https://github.com/oxidecomputer/dice-util", default-features = false, version = "0.4.0" }
-dice-mfg-msgs = { git = "https://github.com/oxidecomputer/dice-util", default-features = false, version = "0.2.1" }
+attest-data = { git = "https://github.com/oxidecomputer/dice-util", default-features = false, version = "0.5.0" }
+dice-mfg-msgs = { git = "https://github.com/oxidecomputer/dice-util", default-features = false, version = "0.3.0" }
 gateway-messages = { git = "https://github.com/oxidecomputer/management-gateway-service", default-features = false, features = ["smoltcp"] }
 gateway-ereport-messages = { git = "https://github.com/oxidecomputer/management-gateway-service", default-features = false }
 gimlet-inspector-protocol = { git = "https://github.com/oxidecomputer/gimlet-inspector-protocol", version = "0.1.0" }
@@ -169,8 +169,10 @@ mctp = { git = "https://github.com/OpenPRoT/mctp-rs.git", branch = "sync-feature
 embedded-hal-1 = { package = "embedded-hal", version = "1.0", default-features = false }
 
 ## OpenPRot Initiative
-openprot-hal-blocking = { git = "https://github.com/OpenPRoT/openprot.git"  }
-openprot-platform-mock = { git = "https://github.com/OpenPRoT/openprot.git" }
+openprot-hal-blocking = { git = "https://github.com/rusty1968/openprot.git" , branch = "hmac-owned"  }
+openprot-platform-mock = { git = "https://github.com/rusty1968/openprot.git" , branch = "hmac-owned" }
+openprot-platform-rustcrypto = { git = "https://github.com/rusty1968/openprot.git" , branch = "hmac-owned", package = "platform-rustcrypto-impl" }
+openprot-platform-traits-hubris = { git = "https://github.com/rusty1968/openprot.git" , branch = "hmac-owned" }
 proposed-traits = { git = "https://github.com/rusty1968/proposed_traits.git", package = "proposed-traits", rev = "85641310df5a5276c67f81621b104322cff0286c" }
 
 [workspace.lints.rust]
